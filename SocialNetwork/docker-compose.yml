@@ -1,0 +1,32 @@
+version: "3.9" #version of docker-compose
+services:
+  db:
+    image: "postgres:13.4-alpine"
+    container_name: "demo-postgres"
+    environment:
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=root
+      - POSTGRES_DB=tms
+    ports:
+      - "35432:5432"
+  flyway-migrator:
+    image: boxfuse/flyway:5-alpine
+    command: -url=jdbc:postgresql://db:5432/tms -schemas=public -baselineOnMigrate=true -user=root -password=root migrate
+    volumes:
+      - ./src/main/resources/db/migration:/flyway/sql
+    depends_on:
+      - db
+  tomcat:
+    image: "tomcat:9.0.58-jdk17-openjdk-slim"
+    container_name: "tomcat"
+    environment:
+      JPDA_ADDRESS: "*:8000"
+      JPDA_TRANSPORT: "dt_socket"
+    volumes:
+      - "./target/SocialNetwork-1.0-SNAPSHOT.war:/usr/local/tomcat/webapps/servlet.war"
+    ports:
+      - "8080:8080"
+      - "8000:8000"
+    entrypoint: "/usr/local/tomcat/bin/catalina.sh jpda run"
+    depends_on:
+      - flyway-migrator
