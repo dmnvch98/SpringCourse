@@ -1,6 +1,7 @@
 package org.example.springmvc.repository;
 
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
 import org.example.springmvc.model.Friends;
@@ -8,17 +9,18 @@ import org.example.springmvc.model.User;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.springframework.stereotype.Repository;
 
 import javax.persistence.Query;
 import java.util.ArrayList;
 import java.util.List;
 
 @Log4j2
-@AllArgsConstructor
-@Setter
+@RequiredArgsConstructor
+@Repository
 public class FriendRepository implements FriendDao {
 
-    private SessionFactory sessionFactory;
+    private final SessionFactory sessionFactory;
 
     @Override
     public void addFriend(final User firstUser, final User secondUser) {

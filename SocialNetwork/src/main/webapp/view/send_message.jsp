@@ -16,7 +16,7 @@
 <body>
 <jsp:include page="header.jsp"/>
 <div class="container position-relative" style="height: 100vh; width: 100vh">
-    <c:forEach var="message" items="${userDialog}">
+    <c:forEach var="message" items="${userMessages}">
         <div class="message">
             <h5><c:out value="${message.sender.username}"/></h5>
             <p><c:out value="${message.messageText}"/></p>
@@ -24,8 +24,9 @@
     </c:forEach>
     <div class="input-group mb-3 position-absolute bottom-0 start-0">
         <form style="display: inline-flex" action="${pageContext.request.contextPath}/message" method="post">
+            <input type="hidden" value="${recipientUser.username}" name="friendUsername" />
             <input type="text" class="form-control" placeholder="message"
-                   aria-describedby="button-addon2" style="width: 500px" name="message_text">
+                   aria-describedby="button-addon2" style="width: 500px" name="messageText">
             <input class="btn btn-outline-secondary" type="submit" id="button-addon2" value="Send"/>
         </form>
     </div>

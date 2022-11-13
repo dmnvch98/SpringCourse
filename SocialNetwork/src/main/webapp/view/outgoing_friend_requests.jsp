@@ -31,8 +31,8 @@
                     </td>
                     <td>
                         <form method="post"
-                              action="${pageContext.request.contextPath}/friendrequest/remove">
-                            <input type="hidden" value="${outgoingFriendRequest}" name="friendrequestid" />
+                              action="${pageContext.request.contextPath}/friend_request/remove">
+                            <input type="hidden" value="${outgoingFriendRequest.id}" name="friendRequestId" />
                             <input type="submit" value="Delete">
                         </form>
                     </td>

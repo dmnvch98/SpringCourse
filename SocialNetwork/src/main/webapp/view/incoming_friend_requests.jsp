@@ -30,13 +30,17 @@
                         <c:out value="${displayedUsername}"/>
                     </td>
                     <td>
-                        <form action="${pageContext.request.contextPath}/friend?friendrequestid=<c:out value="${incomingFriendRequest.id}"/>" method="post">
+                        <form action="${pageContext.request.contextPath}/friends/add" method="post">
+                            <input type="hidden" value="${incomingFriendRequest.id}" name="friendRequestId" />
                             <input type="submit" value="Accept">
                         </form>
                     </td>
                     <td>
-                        <a href="${pageContext.request.contextPath}/removefriendsrequest?friendrequestid=<c:out value="${incomingFriendRequest.id}"/>"
-                        >Decline</a>
+                        <form method="post"
+                              action="${pageContext.request.contextPath}/friend_request/remove">
+                            <input type="hidden" value="${incomingFriendRequest.id}" name="friendRequestId" />
+                            <input type="submit" value="Decline">
+                        </form>
                     </td>
                 </tr>
             </c:forEach>

@@ -1,6 +1,7 @@
 package org.example.springmvc.repository.message;
 
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
 import org.example.springmvc.model.Message;
@@ -8,16 +9,17 @@ import org.example.springmvc.model.User;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.springframework.stereotype.Repository;
 
 import javax.persistence.Query;
 import java.util.ArrayList;
 import java.util.List;
 
 @Log4j2
-@AllArgsConstructor
-@Setter
+@RequiredArgsConstructor
+@Repository
 public class MessageRepository implements MessageDao {
-    private SessionFactory sessionFactory;
+    private final SessionFactory sessionFactory;
 
     @Override
     public void saveMessage(final Message message) {

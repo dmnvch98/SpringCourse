@@ -27,7 +27,13 @@
                         <c:out value="${userFriend.username}"/>
                     </td>
                     <td>
-                        <a href="${pageContext.request.contextPath}/removefriend?user_friend=<c:out value="${userFriend.username}"/>">Remove</a>
+                        <div style="width: 70px">
+                            <form method="post"
+                                  action="${pageContext.request.contextPath}/friends/remove">
+                                <input type="hidden" value="${userFriend.username}" name="friendUsername" />
+                                <input type="submit" value="Remove">
+                            </form>
+                        </div>
                     </td>
                     <td>
                         <a href="${pageContext.request.contextPath}/message?recipient_user=<c:out value="${userFriend.username}"/>">Send message</a>

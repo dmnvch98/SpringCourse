@@ -2,6 +2,7 @@ package org.example.springmvc.model;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -10,7 +11,6 @@ import java.util.Date;
 @Entity
 @Table(name = "messages")
 @Data
-@NoArgsConstructor
 @NamedQueries({
         @NamedQuery(name = "getUserDialog", query = "select m from Message m where m.recipient = :user1 and "
                 + " m.sender = :user2 or m.recipient = :user2 and m.sender = :user1 order by m.messageDate")
@@ -32,11 +32,4 @@ public class Message {
     private Date messageDate;
     @Column(name = "message_text")
     private String messageText;
-
-    public Message(final User sender, final User recipient, final Date messageDate, final String messageText) {
-        this.sender = sender;
-        this.recipient = recipient;
-        this.messageDate = messageDate;
-        this.messageText = messageText;
-    }
 }

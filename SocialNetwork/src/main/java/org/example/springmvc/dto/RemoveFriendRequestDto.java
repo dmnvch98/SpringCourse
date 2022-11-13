@@ -4,7 +4,9 @@ import lombok.Data;
 
 @Data
 public class RemoveFriendRequestDto {
-    private final long id;
-    private final String requestUsername;
-    private final String approveUsername;
+    private final String friendRequestId;
+
+    public long getFriendRequestId() {
+        return Long.parseLong(friendRequestId);
+    }
 }

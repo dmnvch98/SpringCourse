@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 
+import javax.servlet.http.HttpSession;
 import java.nio.charset.StandardCharsets;
 import java.security.SecureRandom;
 
@@ -22,7 +23,7 @@ public class AppConfig {
     private Environment environment;
 
     @Bean
-    public Hasher hasher () {
+    public Hasher hasher() {
         String secret = environment.getRequiredProperty("hasher.salt");
         return BCrypt.with(new SecureRandom(secret.getBytes(StandardCharsets.UTF_8)));
     }

@@ -1,8 +1,8 @@
 package org.example.springmvc.service;
 
-import at.favre.lib.crypto.bcrypt.BCrypt;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.example.springmvc.model.User;
 import org.example.springmvc.passwordhashing.PasswordHasher;
 import org.example.springmvc.repository.UserDao;
@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import java.util.List;
 
@@ -18,6 +17,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Service
 @Getter
+@Log4j2
 public class UserService {
     private final UserDao userDao;
     @Autowired
@@ -39,7 +39,8 @@ public class UserService {
         if (isExist(username)) {
             throw new IOException("User already exists");
         } else {
-            userDao.save(username, password, role, createdAt);
+            String hashedPassword = passwordHasher.hashPassword(password);
+            userDao.save(username, hashedPassword, role, createdAt);
         }
     }
 
