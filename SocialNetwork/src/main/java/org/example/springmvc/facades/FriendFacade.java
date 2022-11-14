@@ -32,8 +32,9 @@ public class FriendFacade {
         friendRequestService.deleteRequest(friendRequest);
     }
 
-    public void removeFriend(final User userFriend,final User currentUser) {
+    public void removeFriend(final User userFriend, final User currentUser) {
         List<Friends> friends = friendService.getFriends(currentUser, userFriend);
+        log.info("User removed friend. Initiator: [{}]", currentUser.getUsername());
         friendService.removeFriend(friends.get(0));
         friendService.removeFriend(friends.get(1));
     }

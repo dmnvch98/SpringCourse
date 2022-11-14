@@ -32,9 +32,7 @@
                         <c:if test="${displayedUsername!= currentUsername}">
                             <div style="width: 70px">
                                 <form method="post"
-                                      <%--action="${pageContext.request.contextPath}/friendrequest?requestUsername=<c:out value="${currentUsername}"/>&approveUsername=<c:out value="${displayedUsername}"/>">--%>
-                                      action="${pageContext.request.contextPath}/friend_request/create">
-                                    <input type="hidden" value="${username}" name="requestUsername" />
+                                      action="${pageContext.request.contextPath}/friend_request">
                                     <input type="hidden" value="${displayedUsername}" name="approveUsername" />
                                     <input type="submit" value="Add to friends">
                                 </form>

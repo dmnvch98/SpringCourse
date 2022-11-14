@@ -1,8 +1,6 @@
 package org.example.springmvc.repository;
 
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
 import org.example.springmvc.model.FriendRequest;
 import org.example.springmvc.model.User;
@@ -31,6 +29,8 @@ public class FriendRequestRepository implements FriendRequestDao {
             session.save(friendRequest);
             transaction.commit();
         } catch (Exception e) {
+            log.info("An error occurred trying to save friend request. Initiator [{}], Target [{}]",
+                    requestUser, approveUser);
             log.error(e);
         }
     }
@@ -45,6 +45,7 @@ public class FriendRequestRepository implements FriendRequestDao {
             incomingFriendRequests = (List<FriendRequest>) query.getResultList();
             transaction.commit();
         } catch (Exception e) {
+            log.info("An error occurred when getting incoming friend requests for user [{}]", username);
             log.error(e);
         }
         return incomingFriendRequests;
@@ -60,6 +61,7 @@ public class FriendRequestRepository implements FriendRequestDao {
             outgoingFriendRequests = (List<FriendRequest>) query.getResultList();
             transaction.commit();
         } catch (Exception e) {
+            log.info("An error occurred when getting outgoing friend requests for user [{}]", username);
             log.error(e);
         }
         return outgoingFriendRequests;
@@ -76,6 +78,8 @@ public class FriendRequestRepository implements FriendRequestDao {
             transaction.commit();
         } catch (Exception e) {
             if (!(e instanceof NoResultException)) {
+                log.info("An error occurred when getting a friend request from db. Friend request id [{}]",
+                        friendRequest);
                 log.error(e);
             }
         }
@@ -93,6 +97,8 @@ public class FriendRequestRepository implements FriendRequestDao {
             return query.getSingleResult() != null;
         } catch (Exception e) {
             if (!(e instanceof NoResultException)) {
+                log.info("An error occurred when trying to check if friend request exists. User [{}], User[{}]",
+                        requestUser, approveUser);
                 log.error(e);
             }
         }
@@ -106,6 +112,8 @@ public class FriendRequestRepository implements FriendRequestDao {
             session.remove(friendRequest);
             transaction.commit();
         } catch (Exception e) {
+            log.info("An error occurred when trying to delete friend request. Friend request id [{}]",
+                    friendRequest.getId());
             log.error(e);
         }
     }

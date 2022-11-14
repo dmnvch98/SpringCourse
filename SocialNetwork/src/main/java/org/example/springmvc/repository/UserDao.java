@@ -11,6 +11,6 @@ public interface UserDao {
     List<User> getAll();
     List<User> filterUsers(String prefix);
     boolean isExist(String username);
-    Optional<User> getUserIfExists(String username);
+    Optional<User> getUser(String username);
     List<User> getUserFriends(long userId);
 }

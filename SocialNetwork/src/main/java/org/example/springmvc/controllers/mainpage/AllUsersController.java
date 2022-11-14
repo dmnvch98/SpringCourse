@@ -20,8 +20,9 @@ public class AllUsersController {
     private final UserService userService;
 
     @GetMapping()
-    public String getAllUsers(final ModelMap model, @RequestParam(name = "search", required=false) String searchPrefix) {
-        log.info("Filter users with prefix " + searchPrefix);
+    public String getAllUsers(final ModelMap model,
+                              final @RequestParam(name = "search", required = false) String searchPrefix) {
+        log.info("Filter users with prefix: [{}]", searchPrefix);
         List<User> users = userService.getAllFilteredUsers(searchPrefix);
         model.addAttribute("users", users);
         return "all_users";

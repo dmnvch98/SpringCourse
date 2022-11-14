@@ -1,8 +1,6 @@
 package org.example.springmvc.repository.message;
 
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
 import org.example.springmvc.model.Message;
 import org.example.springmvc.model.User;
@@ -28,23 +26,26 @@ public class MessageRepository implements MessageDao {
             session.save(message);
             transaction.commit();
         } catch (Exception e) {
-            e.printStackTrace();
+            log.info("An error occurred when trying to save user message. User [{}]", message.getSender());
+            log.error(e);
         }
     }
 
     @Override
     @SuppressWarnings("unchecked")
-    public List<Message> getUserMessages(final User user1, final User user2) {
+    public List<Message> getUserMessages(final User firstUser, final User secondUser) {
         List<Message> userDialog = new ArrayList<>();
         try (Session session = sessionFactory.openSession()) {
             Transaction transaction = session.beginTransaction();
             Query query = session.getNamedQuery("getUserDialog")
-                    .setParameter("user1", user1)
-                    .setParameter("user2", user2);
+                    .setParameter("user1", firstUser)
+                    .setParameter("user2", secondUser);
             userDialog = (List<Message>) query.getResultList();
             transaction.commit();
         } catch (Exception e) {
-            e.printStackTrace();
+            log.info("An error occurred when trying to get users messages. Users [{}, {}]",
+                    firstUser.getUsername(), secondUser.getUsername());
+            log.error(e);
         }
         return userDialog;
     }
@@ -58,6 +59,8 @@ public class MessageRepository implements MessageDao {
                     .executeUpdate();
             transaction.commit();
         } catch (Exception e) {
+            log.info("An error occurred when trying to remove user dialog. Users [{}, {}]",
+                    dialog.get(0).getSender(), dialog.get(0).getRecipient());
             log.error(e);
         }
     }

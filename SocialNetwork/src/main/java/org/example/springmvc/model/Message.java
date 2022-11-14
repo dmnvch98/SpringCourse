@@ -1,8 +1,6 @@
 package org.example.springmvc.model;
 
 import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -14,7 +12,6 @@ import java.util.Date;
 @NamedQueries({
         @NamedQuery(name = "getUserDialog", query = "select m from Message m where m.recipient = :user1 and "
                 + " m.sender = :user2 or m.recipient = :user2 and m.sender = :user1 order by m.messageDate")
-        //select * from messages where recipient_user_id = 3 and sender_user_id = 5 or recipient_user_id = 5 and sender_user_id = 3;
 })
 public class Message {
     @Id

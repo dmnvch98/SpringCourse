@@ -1,6 +1,5 @@
 package org.example.springmvc.repository;
 
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.example.springmvc.model.User;
@@ -31,6 +30,7 @@ public class UserRepository implements UserDao {
             session.save(user);
             transaction.commit();
         } catch (Exception e) {
+            log.info("An error occurred when trying to save user. User - [{}]", username);
             log.error(e);
         }
     }
@@ -45,6 +45,7 @@ public class UserRepository implements UserDao {
             return query.getSingleResult() != null;
         } catch (Exception e) {
             if (!(e instanceof NoResultException)) {
+                log.info("An error occurred when checking if user exists. User [{}]", username);
                 log.error(e);
             }
         }
@@ -60,6 +61,7 @@ public class UserRepository implements UserDao {
             listOfUser = session.createQuery("from User").getResultList();
             transaction.commit();
         } catch (Exception e) {
+            log.info("An error occurred when getting all users");
             log.error(e);
         }
         return listOfUser;
@@ -75,13 +77,14 @@ public class UserRepository implements UserDao {
             filteredUsers = (List<User>) query.getResultList();
             transaction.commit();
         } catch (Exception e) {
+            log.info("An error occurred when trying to filter users with prefix [{}]", prefix);
             log.error(e);
         }
         return filteredUsers;
     }
 
     @Override
-    public Optional<User> getUserIfExists(final String username) {
+    public Optional<User> getUser(final String username) {
         User user = null;
         try (Session session = sessionFactory.openSession()) {
             Transaction transaction = session.beginTransaction();
@@ -95,6 +98,7 @@ public class UserRepository implements UserDao {
             }
         }
         return user != null ? Optional.of(user) : Optional.empty();
+        //Optional.ofNullable(user) Идея подсказывать заменить на Optional.empty(), т.е. user = null
     }
 
     @SuppressWarnings("unchecked")
