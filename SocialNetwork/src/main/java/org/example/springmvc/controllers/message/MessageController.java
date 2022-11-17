@@ -1,5 +1,6 @@
 package org.example.springmvc.controllers.message;
 
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.example.springmvc.dto.FriendDto;
@@ -17,6 +18,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -30,8 +34,8 @@ public class MessageController {
     private final MessageFacade messageFacade;
 
     @GetMapping
-    public String getUserMessages(final HttpServletRequest req, final Model model,
-                                  final @RequestParam(name = "recipient_user") String recipientUsername) {
+    public String getUserMessages(HttpServletRequest req, Model model,
+                                  @RequestParam(name = "recipient_user") String recipientUsername) {
         User sender = (User) req.getSession().getAttribute("currentUser");
         User recipient = userService.getUser(recipientUsername);
         List<Message> userMessages = messageService.getUserMessages(sender, recipient);
@@ -41,10 +45,10 @@ public class MessageController {
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-    public String sendMessage(final HttpServletRequest req, final FriendDto friendDto, final MessageTextDto messageTextDto) {
+    public String sendMessage(HttpServletRequest req, FriendDto friendDto, @NotNull @NotEmpty String messageText) {
         User sender = (User) req.getSession().getAttribute("currentUser");
         User recipient = userService.getUser(friendDto.getFriendUsername());
-        messageFacade.sendMessage(sender, recipient, messageTextDto.getMessageText());
+        messageFacade.sendMessage(sender, recipient, messageText);
         return "redirect:message?recipient_user=" + recipient.getUsername();
     }
 }
