@@ -4,7 +4,6 @@ import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.example.springmvc.dto.FriendDto;
-import org.example.springmvc.dto.MessageTextDto;
 import org.example.springmvc.facades.MessageFacade;
 import org.example.springmvc.model.Message;
 import org.example.springmvc.model.User;
