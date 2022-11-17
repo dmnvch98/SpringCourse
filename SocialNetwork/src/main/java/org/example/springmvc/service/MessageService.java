@@ -1,8 +1,6 @@
 package org.example.springmvc.service;
 
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 import org.example.springmvc.model.Message;
 import org.example.springmvc.model.User;
 import org.example.springmvc.repository.message.MessageDao;

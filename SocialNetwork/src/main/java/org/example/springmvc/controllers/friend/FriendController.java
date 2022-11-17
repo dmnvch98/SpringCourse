@@ -45,7 +45,7 @@ public class FriendController {
     }
 
     @GetMapping()
-    public String getUserFriends(HttpServletRequest req, ModelMap model) {
+    public String getUserFriends(final HttpServletRequest req, final ModelMap model) {
         User currentUser = (User) req.getSession().getAttribute("currentUser");
         List<User> userFriendsUsernames = userService.getUserFriends(currentUser.getId());
         log.info("Getting friends for user: [{}]", currentUser.getUsername());

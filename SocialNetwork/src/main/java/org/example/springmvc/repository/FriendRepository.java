@@ -1,8 +1,6 @@
 package org.example.springmvc.repository;
 
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
 import org.example.springmvc.model.Friends;
 import org.example.springmvc.model.User;
@@ -30,6 +28,8 @@ public class FriendRepository implements FriendDao {
             session.save(friends);
             transaction.commit();
         } catch (Exception e) {
+            log.info("An error occurred when trying to add friend. Users: [{}, {}]",
+                    firstUser.getUsername(), secondUser.getUsername());
             log.error(e);
         }
     }
@@ -41,6 +41,8 @@ public class FriendRepository implements FriendDao {
             session.remove(friends);
             transaction.commit();
         } catch (Exception e) {
+            log.info("An error occurred when trying to remove friend. Users: [{}, {}]",
+                    friends.getFirstUser(), friends.getSecondUser());
             log.error(e);
         }
     }
@@ -57,6 +59,8 @@ public class FriendRepository implements FriendDao {
             friendsRecords = (List<Friends>) query.getResultList();
             transaction.commit();
         } catch (Exception e) {
+            log.info("An error occurred when trying getting friends. Users: [{}, {}]",
+                    firstUser.getUsername(), secondUser.getUsername());
             log.error(e);
         }
         return friendsRecords;
