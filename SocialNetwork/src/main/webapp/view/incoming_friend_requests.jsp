@@ -30,7 +30,7 @@
                         <c:out value="${displayedUsername}"/>
                     </td>
                     <td>
-                        <form action="${pageContext.request.contextPath}/friends/add" method="post">
+                        <form action="${pageContext.request.contextPath}/friends" method="post">
                             <input type="hidden" value="${incomingFriendRequest.id}" name="friendRequestId" />
                             <input type="submit" value="Accept">
                         </form>

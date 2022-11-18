@@ -98,7 +98,7 @@ public class UserRepository implements UserDao {
             }
         }
         return user != null ? Optional.of(user) : Optional.empty();
-        //Optional.ofNullable(user) Идея подсказывать заменить на Optional.empty(), т.е. user = null
+        //Optional.ofNullable(user) Идея подсказывает заменить на Optional.empty(), т.к. user = null
     }
 
     @SuppressWarnings("unchecked")
@@ -106,7 +106,12 @@ public class UserRepository implements UserDao {
         List<User> userFriends = new ArrayList<>();
         try (Session session = sessionFactory.openSession()) {
             Transaction transaction = session.beginTransaction();
-            userFriends = session.getNamedQuery("getUserFriends").setParameter("userId", userId).getResultList();
+            userFriends = session.getNamedQuery("getFirstPartUserFriends")
+                    .setParameter("userId", userId).getResultList();
+            userFriends.addAll(
+                    session.getNamedQuery("getSecondPartUserFriends")
+                            .setParameter("userId", userId).getResultList()
+            );
             transaction.commit();
         } catch (Exception e) {
             log.error(e);

@@ -2,7 +2,6 @@ package org.example.springmvc.controllers.friendrequest;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.example.springmvc.dto.CreateFriendRequestDto;
 import org.example.springmvc.dto.RemoveFriendRequestDto;
 import org.example.springmvc.model.FriendRequest;
 import org.example.springmvc.model.User;
@@ -17,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Controller
@@ -46,9 +47,9 @@ public class FriendRequestController {
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-    public RedirectView createFriendRequest(final CreateFriendRequestDto friendRequestDto, final HttpServletRequest req) {
+    public RedirectView createFriendRequest(final @NotNull @NotEmpty String approveUsername, final HttpServletRequest req) {
         User requestUser = (User) req.getSession().getAttribute("currentUser");
-        User approveUser = userService.getUser(friendRequestDto.getApproveUsername());
+        User approveUser = userService.getUser(approveUsername);
         friendRequestService.createRequest(requestUser, approveUser);
         RedirectView redirectView = new RedirectView("/allusers");
         redirectView.setContextRelative(true);

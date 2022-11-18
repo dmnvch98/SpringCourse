@@ -28,7 +28,7 @@ public class FriendController {
     private final FriendFacade friendFacade;
     private final UserService userService;
 
-    @PostMapping(consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE, path = "/add")
+    @PostMapping(consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     public RedirectView addFriend(final RemoveFriendRequestDto dto) {
         friendFacade.addFriend(dto.getFriendRequestId());
         RedirectView redirectView = new RedirectView("/friend_request/incoming");

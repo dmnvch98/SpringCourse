@@ -3,7 +3,6 @@ package org.example.springmvc.controllers.message;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.example.springmvc.dto.FriendDto;
-import org.example.springmvc.dto.MessageTextDto;
 import org.example.springmvc.facades.MessageFacade;
 import org.example.springmvc.model.Message;
 import org.example.springmvc.model.User;
@@ -42,10 +41,10 @@ public class MessageController {
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-    public String sendMessage(final HttpServletRequest req, final FriendDto friendDto, final MessageTextDto messageTextDto) {
+    public String sendMessage(final HttpServletRequest req, final FriendDto friendDto, final String messageText) {
         User sender = (User) req.getSession().getAttribute("currentUser");
         User recipient = userService.getUser(friendDto.getFriendUsername());
-        messageFacade.sendMessage(sender, recipient, messageTextDto.getMessageText());
+        messageFacade.sendMessage(sender, recipient, messageText);
         return "redirect:message?recipient_user=" + recipient.getUsername();
     }
 }
