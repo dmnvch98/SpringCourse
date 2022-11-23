@@ -21,7 +21,6 @@ import java.util.List;
 @Log4j2
 public class UserService {
     private final UserDao userDao;
-    @Autowired
     private final PasswordHasher passwordHasher;
 
     public boolean isExist(final String username) {
@@ -64,7 +63,6 @@ public class UserService {
     }
 
     public List<User> getUserFriends(final long userId) {
-        log.info("Getting user friends by userId. UserID [{}]", userId);
         return userDao.getUserFriends(userId);
     }
 }

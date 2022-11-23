@@ -10,7 +10,7 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 @Data
-public class CreateUserDto {
+public class UserDto {
     @NotEmpty(groups = {Unique.class, Credentials.class})
     @NotNull(groups = {Unique.class, Credentials.class})
     @Length(groups = {Unique.class, Credentials.class},

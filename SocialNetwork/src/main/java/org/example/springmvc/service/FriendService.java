@@ -26,7 +26,7 @@ public class FriendService {
         messageDao.removeMessages(dialog);
     }
 
-    public List<Friends> getFriends(final User firstUser, final User secondUser) {
+    public Friends getFriends(final User firstUser, final User secondUser) {
         return friendDao.getFriends(firstUser, secondUser);
     }
 }

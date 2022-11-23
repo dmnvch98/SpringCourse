@@ -29,9 +29,8 @@ public class FriendRequestRepository implements FriendRequestDao {
             session.save(friendRequest);
             transaction.commit();
         } catch (Exception e) {
-            log.info("An error occurred trying to save friend request. Initiator [{}], Target [{}]",
-                    requestUser, approveUser);
-            log.error(e);
+            log.error("An error occurred trying to save friend request. Initiator [{}], Target [{}]",
+                    requestUser, approveUser + "\n" + e);
         }
     }
 
@@ -45,8 +44,7 @@ public class FriendRequestRepository implements FriendRequestDao {
             incomingFriendRequests = (List<FriendRequest>) query.getResultList();
             transaction.commit();
         } catch (Exception e) {
-            log.info("An error occurred when getting incoming friend requests for user [{}]", username);
-            log.error(e);
+            log.error("An error occurred when getting incoming friend requests for user [{}]", username + "\n" + e);
         }
         return incomingFriendRequests;
     }
@@ -61,8 +59,7 @@ public class FriendRequestRepository implements FriendRequestDao {
             outgoingFriendRequests = (List<FriendRequest>) query.getResultList();
             transaction.commit();
         } catch (Exception e) {
-            log.info("An error occurred when getting outgoing friend requests for user [{}]", username);
-            log.error(e);
+            log.error("An error occurred when getting outgoing friend requests for user [{}]", username + "\n" + e);
         }
         return outgoingFriendRequests;
     }
@@ -78,9 +75,8 @@ public class FriendRequestRepository implements FriendRequestDao {
             transaction.commit();
         } catch (Exception e) {
             if (!(e instanceof NoResultException)) {
-                log.info("An error occurred when getting a friend request from db. Friend request id [{}]",
-                        friendRequest);
-                log.error(e);
+                log.error("An error occurred when getting a friend request from db. Friend request id [{}]",
+                        friendRequest + "\n" + e);
             }
         }
         return friendRequest;
@@ -97,9 +93,8 @@ public class FriendRequestRepository implements FriendRequestDao {
             return query.getSingleResult() != null;
         } catch (Exception e) {
             if (!(e instanceof NoResultException)) {
-                log.info("An error occurred when trying to check if friend request exists. User [{}], User[{}]",
-                        requestUser, approveUser);
-                log.error(e);
+                log.error("An error occurred when trying to check if friend request exists. User [{}], User[{}]",
+                        requestUser, approveUser + "\n" + e);
             }
         }
         return false;
@@ -112,9 +107,8 @@ public class FriendRequestRepository implements FriendRequestDao {
             session.remove(friendRequest);
             transaction.commit();
         } catch (Exception e) {
-            log.info("An error occurred when trying to delete friend request. Friend request id [{}]",
-                    friendRequest.getId());
-            log.error(e);
+            log.error("An error occurred when trying to delete friend request. Friend request id [{}]",
+                    friendRequest.getId() + "\n" + e);
         }
     }
 }
