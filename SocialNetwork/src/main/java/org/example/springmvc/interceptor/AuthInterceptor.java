@@ -18,7 +18,7 @@ public class AuthInterceptor implements HandlerInterceptor {
                              final Object handler) throws Exception {
         log.info("Trying to access to: [{}]", request.getRequestURI());
 
-        if (authContext.isAuthorized() && request.getSession() != null) {
+        if (authContext.isAuthorized()) {
             return true;
         }
         response.sendRedirect("accessDenied");

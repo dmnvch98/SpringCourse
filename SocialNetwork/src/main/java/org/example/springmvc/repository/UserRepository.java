@@ -30,8 +30,7 @@ public class UserRepository implements UserDao {
             session.save(user);
             transaction.commit();
         } catch (Exception e) {
-            log.info("An error occurred when trying to save user. User - [{}]", username);
-            log.error(e);
+            log.error("An error occurred when trying to save user. User - [{}]", username + "\n" + e);
         }
     }
 
@@ -45,8 +44,7 @@ public class UserRepository implements UserDao {
             return query.getSingleResult() != null;
         } catch (Exception e) {
             if (!(e instanceof NoResultException)) {
-                log.info("An error occurred when checking if user exists. User [{}]", username);
-                log.error(e);
+                log.error("An error occurred when checking if user exists. User [{}]", username + "\n" + e);
             }
         }
         return false;
@@ -61,8 +59,7 @@ public class UserRepository implements UserDao {
             listOfUser = session.createQuery("from User").getResultList();
             transaction.commit();
         } catch (Exception e) {
-            log.info("An error occurred when getting all users");
-            log.error(e);
+            log.error("An error occurred when getting all users" + "\n" + e);
         }
         return listOfUser;
     }
@@ -77,8 +74,7 @@ public class UserRepository implements UserDao {
             filteredUsers = (List<User>) query.getResultList();
             transaction.commit();
         } catch (Exception e) {
-            log.info("An error occurred when trying to filter users with prefix [{}]", prefix);
-            log.error(e);
+            log.error("An error occurred when trying to filter users with prefix [{}]", prefix + "\n" + e);
         }
         return filteredUsers;
     }
@@ -94,11 +90,11 @@ public class UserRepository implements UserDao {
             transaction.commit();
         } catch (Exception e) {
             if (!(e instanceof NoResultException)) {
-                log.error(e);
+                log.error("An error occurred when trying to get user info. UserId [{}]", username + "\n" + e);
             }
         }
         return user != null ? Optional.of(user) : Optional.empty();
-        //Optional.ofNullable(user) Идея подсказывать заменить на Optional.empty(), т.е. user = null
+        //Optional.ofNullable(user) Идея подсказывает заменить на Optional.empty(), т.к. user = null
     }
 
     @SuppressWarnings("unchecked")
@@ -109,12 +105,12 @@ public class UserRepository implements UserDao {
             userFriends = session.getNamedQuery("getFirstPartUserFriends")
                     .setParameter("userId", userId).getResultList();
             userFriends.addAll(
-                    session.getNamedQuery("getSecondPartUserFriends").
-                    setParameter("userId", userId).getResultList()
+                    session.getNamedQuery("getSecondPartUserFriends")
+                            .setParameter("userId", userId).getResultList()
             );
             transaction.commit();
         } catch (Exception e) {
-            log.error(e);
+            log.error("An error occurred when trying to get user friends. UserId [{}]", userId + "\n" + e);
         }
         return userFriends;
     }

@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.example.springmvc.model.User;
 import org.example.springmvc.service.UserService;
+import org.example.springmvc.session.AuthContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,6 +19,7 @@ import java.util.List;
 @Log4j2
 public class AllUsersController {
     private final UserService userService;
+    private final AuthContext authContext;
 
     @GetMapping()
     public String getAllUsers(final ModelMap model,
@@ -25,6 +27,7 @@ public class AllUsersController {
         log.info("Filter users with prefix: [{}]", searchPrefix);
         List<User> users = userService.getAllFilteredUsers(searchPrefix);
         model.addAttribute("users", users);
+        model.addAttribute("currentUsername", authContext.getCurrentUsername());
         return "all_users";
     }
 }

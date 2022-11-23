@@ -7,6 +7,8 @@ import org.example.springmvc.model.Friends;
 import org.example.springmvc.model.User;
 import org.example.springmvc.service.FriendRequestService;
 import org.example.springmvc.service.FriendService;
+import org.example.springmvc.service.UserService;
+import org.example.springmvc.session.AuthContext;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -19,6 +21,10 @@ public class FriendFacade {
 
     private final FriendRequestService friendRequestService;
 
+    private final AuthContext authContext;
+
+    private final UserService userService;
+
     public void addFriend(final long friendRequestId) {
         FriendRequest friendRequest = friendRequestService.getFriendRequest(friendRequestId);
 
@@ -28,14 +34,20 @@ public class FriendFacade {
         User firstUser = friendRequest.getApproveUser();
         User secondUser = friendRequest.getRequestUser();
         friendService.addFriend(firstUser, secondUser);
-        friendService.addFriend(secondUser, firstUser);
         friendRequestService.deleteRequest(friendRequest);
     }
 
-    public void removeFriend(final User userFriend, final User currentUser) {
-        List<Friends> friends = friendService.getFriends(currentUser, userFriend);
+    public void removeFriend(final String friendUsername) {
+        User currentUser = authContext.getUser();
+        User friendUser = userService.getUser(friendUsername);
+        Friends friends = friendService.getFriends(currentUser, friendUser);
         log.info("User removed friend. Initiator: [{}]", currentUser.getUsername());
-        friendService.removeFriend(friends.get(0));
-        friendService.removeFriend(friends.get(1));
+        friendService.removeFriend(friends);
+    }
+
+    public List<User> getUserFriends() {
+        User currentUser = authContext.getUser();
+        log.info("Getting friends for user: [{}]", currentUser.getUsername());
+        return userService.getUserFriends(currentUser.getId());
     }
 }

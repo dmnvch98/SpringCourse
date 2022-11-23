@@ -26,8 +26,7 @@ public class MessageRepository implements MessageDao {
             session.save(message);
             transaction.commit();
         } catch (Exception e) {
-            log.info("An error occurred when trying to save user message. User [{}]", message.getSender());
-            log.error(e);
+            log.error("An error occurred when trying to save user message. User [{}]", message.getSender() + "\n" + e);
         }
     }
 
@@ -43,9 +42,8 @@ public class MessageRepository implements MessageDao {
             userDialog = (List<Message>) query.getResultList();
             transaction.commit();
         } catch (Exception e) {
-            log.info("An error occurred when trying to get users messages. Users [{}, {}]",
-                    firstUser.getUsername(), secondUser.getUsername());
-            log.error(e);
+            log.error("An error occurred when trying to get users messages. Users [{}, {}]",
+                    firstUser.getUsername(), secondUser.getUsername() + "\n" + e);
         }
         return userDialog;
     }
@@ -59,9 +57,8 @@ public class MessageRepository implements MessageDao {
                     .executeUpdate();
             transaction.commit();
         } catch (Exception e) {
-            log.info("An error occurred when trying to remove user dialog. Users [{}, {}]",
-                    dialog.get(0).getSender(), dialog.get(0).getRecipient());
-            log.error(e);
+            log.error("An error occurred when trying to remove user dialog. Users [{}, {}]",
+                    dialog.get(0).getSender(), dialog.get(0).getRecipient() + "\n" + e);
         }
     }
 }
