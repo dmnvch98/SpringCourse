@@ -22,8 +22,10 @@ import java.util.Date;
         @NamedQuery(name = "filterUsers", query = "select u from User u where u.username like CONCAT(:prefix,'%')"),
         @NamedQuery(name = "isExists", query = "select u from User u where u.username = :username "),
         @NamedQuery(name = "getUser", query = "select u from User u where u.username = :username"),
-        @NamedQuery(name = "getUserFriends", query = "select u from User u "
-                + "where u.id in (select f.secondUser.id from Friends f where f.firstUser.id = :userId)")
+        @NamedQuery(name = "getFirstPartUserFriends", query = "select u from User u "
+                + "where u.id in (select f.secondUser.id from Friends f where f.firstUser.id = :userId)"),
+        @NamedQuery(name = "getSecondPartUserFriends", query = "select u from User u "
+                + "where u.id in (select f.firstUser.id from Friends f where f.secondUser.id = :userId)")
 })
 public class User {
     @Id

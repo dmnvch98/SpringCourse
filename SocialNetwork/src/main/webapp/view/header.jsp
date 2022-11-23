@@ -20,15 +20,15 @@
                     <a class="nav-link" href="${pageContext.request.contextPath}/allusers">All users</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="${pageContext.request.contextPath}/myfriends">My Friends</a>
+                    <a class="nav-link" href="${pageContext.request.contextPath}/friends">My Friends</a>
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         Friends requests
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                        <li><a class="dropdown-item" href="${pageContext.request.contextPath}/incomingfriendrequests">Incoming requests</a></li>
-                        <li><a class="dropdown-item" href="${pageContext.request.contextPath}/friendrequest/outgoing">Outgoing requests</a></li>
+                        <li><a class="dropdown-item" href="${pageContext.request.contextPath}/friend_request/incoming">Incoming requests</a></li>
+                        <li><a class="dropdown-item" href="${pageContext.request.contextPath}/friend_request/outgoing">Outgoing requests</a></li>
                     </ul>
                 </li>
             </ul>

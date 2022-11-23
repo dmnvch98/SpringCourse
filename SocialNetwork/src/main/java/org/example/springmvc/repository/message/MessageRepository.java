@@ -1,23 +1,23 @@
 package org.example.springmvc.repository.message;
 
-import lombok.AllArgsConstructor;
-import lombok.Setter;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.example.springmvc.model.Message;
 import org.example.springmvc.model.User;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.springframework.stereotype.Repository;
 
 import javax.persistence.Query;
 import java.util.ArrayList;
 import java.util.List;
 
 @Log4j2
-@AllArgsConstructor
-@Setter
+@RequiredArgsConstructor
+@Repository
 public class MessageRepository implements MessageDao {
-    private SessionFactory sessionFactory;
+    private final SessionFactory sessionFactory;
 
     @Override
     public void saveMessage(final Message message) {
@@ -26,23 +26,24 @@ public class MessageRepository implements MessageDao {
             session.save(message);
             transaction.commit();
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("An error occurred when trying to save user message. User [{}]", message.getSender() + "\n" + e);
         }
     }
 
     @Override
     @SuppressWarnings("unchecked")
-    public List<Message> getUserMessages(final User user1, final User user2) {
+    public List<Message> getUserMessages(final User firstUser, final User secondUser) {
         List<Message> userDialog = new ArrayList<>();
         try (Session session = sessionFactory.openSession()) {
             Transaction transaction = session.beginTransaction();
             Query query = session.getNamedQuery("getUserDialog")
-                    .setParameter("user1", user1)
-                    .setParameter("user2", user2);
+                    .setParameter("user1", firstUser)
+                    .setParameter("user2", secondUser);
             userDialog = (List<Message>) query.getResultList();
             transaction.commit();
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("An error occurred when trying to get users messages. Users [{}, {}]",
+                    firstUser.getUsername(), secondUser.getUsername() + "\n" + e);
         }
         return userDialog;
     }
@@ -56,7 +57,8 @@ public class MessageRepository implements MessageDao {
                     .executeUpdate();
             transaction.commit();
         } catch (Exception e) {
-            log.error(e);
+            log.error("An error occurred when trying to remove user dialog. Users [{}, {}]",
+                    dialog.get(0).getSender(), dialog.get(0).getRecipient() + "\n" + e);
         }
     }
 }

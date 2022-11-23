@@ -2,12 +2,11 @@ package org.example.springmvc.controllers.friendrequest;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.example.springmvc.dto.CreateFriendRequestDto;
 import org.example.springmvc.dto.RemoveFriendRequestDto;
+import org.example.springmvc.facades.FriendRequestFacade;
 import org.example.springmvc.model.FriendRequest;
-import org.example.springmvc.model.User;
 import org.example.springmvc.service.FriendRequestService;
-import org.example.springmvc.service.UserService;
+import org.example.springmvc.session.AuthContext;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -16,53 +15,56 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.view.RedirectView;
 
-import javax.servlet.http.HttpServletRequest;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Controller
-@RequestMapping("/friendrequest")
 @RequiredArgsConstructor
 @Log4j2
+@RequestMapping("/friend_request")
 public class FriendRequestController {
-    private final UserService userService;
     private final FriendRequestService friendRequestService;
 
-    @GetMapping(path = "outgoing")
-    public String getOutgoingFriendRequests(ModelMap model, HttpServletRequest req) {
-        String currentUsername = (String) req.getSession().getAttribute("username");
+    private final AuthContext authContext;
+
+    private final FriendRequestFacade friendRequestFacade;
+
+    @GetMapping(path = "/outgoing")
+    public String getOutgoingFriendRequests(final ModelMap model) {
+        String currentUsername = authContext.getCurrentUsername();
         List<FriendRequest> outgoingFriendRequests = friendRequestService.getOutgoingFriendRequests(currentUsername);
         model.addAttribute("outgoingFriendRequests", outgoingFriendRequests);
-        /*
-        * Если в маппинге указан path=outgoing, то редиректит сюда /friendrequest/view/outgoing_friend_requests.jsp
-        * Если маппинг не указывать (ну и соответсвенно убрать outgoing из пути в jsp), то редиректит нормально
-        */
-        // return "outgoing_friend_requests";
-
-
-        // return new RedirectView( "outgoing_friend_requests") friendrequest/outgoing_friend_requests
+        log.info("Getting outgoing friends requests for user: [{}] ", currentUsername);
         return "outgoing_friend_requests";
     }
 
-    @PostMapping(consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE, path = "/create")
-    public RedirectView createFriendRequest(final CreateFriendRequestDto friendRequestDto, HttpServletRequest req) {
-        User requestUser = userService.getUser(friendRequestDto.getRequestUsername());
-        User approveUser = userService.getUser(friendRequestDto.getApproveUsername());
+    @GetMapping(path = "/incoming")
+    public String getIncomingFriendRequests(final ModelMap model) {
+        String currentUsername = authContext.getCurrentUsername();
+        List<FriendRequest> incomingFriendRequests = friendRequestService.getIncomingFriendRequests(currentUsername);
+        model.addAttribute("incomingFriendRequests", incomingFriendRequests);
+        log.info("Getting incoming friends requests for user: [{}] ", currentUsername);
+        return "incoming_friend_requests";
+    }
 
-        log.info("Create friend request. Initiator=[{}], Target=[{}]", requestUser, approveUser);
-        friendRequestService.createRequest(requestUser, approveUser);
-        return new RedirectView(req.getContextPath() + "/allusers");
+    @PostMapping(consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    public RedirectView createFriendRequest(final @NotNull @NotEmpty String approveUsername) {
+        friendRequestFacade.createFriendRequest(approveUsername);
+        RedirectView redirectView = new RedirectView("/allusers");
+        redirectView.setContextRelative(true);
+        return redirectView;
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE, path = "/remove")
-    public RedirectView removeFriendRequest(final RemoveFriendRequestDto friendRequestDto, HttpServletRequest req) {
-        FriendRequest friendRequest = friendRequestService.getFriendRequest(friendRequestDto.getId());
-
-        log.info("Remove friends request. Initiator=[{}], Target=[{}]",
-                friendRequest.getRequestUser(), friendRequest.getApproveUser());
+    public RedirectView removeFriendRequest(final RemoveFriendRequestDto dto) {
+        FriendRequest friendRequest = friendRequestService.getFriendRequest(dto.getFriendRequestId());
         friendRequestService.deleteRequest(friendRequest);
-
-        return new RedirectView(req.getContextPath() + "/allusers");
+        RedirectView redirectView = new RedirectView("/allusers");
+        redirectView.setContextRelative(true);
+        log.info("Remove friends request. Initiator=[{}], Target=[{}]",
+                friendRequest.getRequestUser(),
+                friendRequest.getApproveUser());
+        return redirectView;
     }
-
-
 }

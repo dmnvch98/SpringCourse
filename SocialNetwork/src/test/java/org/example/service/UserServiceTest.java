@@ -6,8 +6,8 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.BDDMockito.given;
 
 import org.example.springmvc.model.User;
+import org.example.springmvc.passwordhashing.PasswordHasher;
 import org.example.springmvc.repository.UserDao;
-import org.example.springmvc.repository.UserRepository;
 import org.example.springmvc.service.UserService;
 import org.junit.Ignore;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -19,12 +19,14 @@ import org.junit.jupiter.api.Test;
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
-
-@ExtendWith(MockitoExtension.class)
 @Ignore
+@ExtendWith(MockitoExtension.class)
 public class UserServiceTest {
     @Mock
-    private UserDao repository = new UserRepository(null);
+    private UserDao repository;
+
+    @Mock
+    private PasswordHasher passwordHasher;
     @InjectMocks
     private UserService sut;
 

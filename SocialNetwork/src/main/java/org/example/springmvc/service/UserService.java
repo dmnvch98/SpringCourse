@@ -1,8 +1,9 @@
 package org.example.springmvc.service;
 
-import at.favre.lib.crypto.bcrypt.BCrypt;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
+import org.example.springmvc.exceptions.InvalidCredentialException;
 import org.example.springmvc.model.User;
 import org.example.springmvc.passwordhashing.PasswordHasher;
 import org.example.springmvc.repository.UserDao;
@@ -10,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import java.util.List;
 
@@ -18,29 +18,35 @@ import java.util.List;
 @RequiredArgsConstructor
 @Service
 @Getter
+@Log4j2
 public class UserService {
     private final UserDao userDao;
-    @Autowired
     private final PasswordHasher passwordHasher;
 
     public boolean isExist(final String username) {
         return userDao.isExist(username);
     }
-    public boolean verifyUser(final String username, final String password) {
-        User user = userDao.getUserIfExists(username).orElse(null);
+
+    public boolean verifyUser(final String username, final String password) throws InvalidCredentialException {
+        log.info("Getting user from repository. User [{}]", username);
+        User user = userDao.getUser(username).orElse(null);
         if (user != null) {
-            return passwordHasher.verifyPassword(password, user.getPassword());
+            if (!passwordHasher.verifyPassword(password, user.getPassword())) {
+                throw new InvalidCredentialException();
+            } else {
+                return true;
+            }
+        } else {
+            log.info("User provides invalid data. Username [{}]", username);
+            throw new InvalidCredentialException();
         }
-        return false;
     }
 
     public void save(final String username, final String password,
                      final String role, final Date createdAt) throws IOException {
-        if (isExist(username)) {
-            throw new IOException("User already exists");
-        } else {
-            userDao.save(username, password, role, createdAt);
-        }
+        String hashedPassword = passwordHasher.hashPassword(password);
+        userDao.save(username, hashedPassword, role, createdAt);
+        log.info("Saving user to the db. User [{}]", username);
     }
 
     public List<User> getAllFilteredUsers(final String prefix) {
@@ -52,7 +58,8 @@ public class UserService {
     }
 
     public User getUser(final String username) {
-        return userDao.getUserIfExists(username).orElse(new User());
+        log.info("Getting user from db by username. User [{}]", username);
+        return userDao.getUser(username).orElseThrow();
     }
 
     public List<User> getUserFriends(final long userId) {

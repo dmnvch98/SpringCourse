@@ -1,3 +1,4 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -14,6 +15,11 @@
 <body>
 <div class="container-fluid d-flex align-items-center justify-content-center" style="height: 70vh">
     <div class="row col-lg-3 col-md-6 col-xl-3">
+        <c:forEach var="error" items="${errors}">
+            <div class="alert alert-danger" role="alert">
+                <c:out value="${error}"/>
+            </div>
+        </c:forEach>
         <h2 class="mb-3">Sign in</h2>
         <form method="post" action="${pageContext.request.contextPath}/signin">
             <div class="mb-3">

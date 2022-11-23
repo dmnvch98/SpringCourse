@@ -1,20 +1,20 @@
 package org.example.springmvc.service;
 
-import lombok.AllArgsConstructor;
-import lombok.Setter;
+import lombok.RequiredArgsConstructor;
 import org.example.springmvc.model.Friends;
 import org.example.springmvc.model.Message;
 import org.example.springmvc.model.User;
 import org.example.springmvc.repository.FriendDao;
 import org.example.springmvc.repository.message.MessageDao;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@AllArgsConstructor
-@Setter
+@RequiredArgsConstructor
+@Service
 public class FriendService {
-    private FriendDao friendDao;
-    private MessageDao messageDao;
+    private final FriendDao friendDao;
+    private final MessageDao messageDao;
 
     public void addFriend(final User firstUser, final User secondUser) {
         friendDao.addFriend(firstUser, secondUser);
@@ -26,7 +26,7 @@ public class FriendService {
         messageDao.removeMessages(dialog);
     }
 
-    public List<Friends> getFriendsRecords(final User firstUser, final User secondUser) {
+    public Friends getFriends(final User firstUser, final User secondUser) {
         return friendDao.getFriends(firstUser, secondUser);
     }
 }
