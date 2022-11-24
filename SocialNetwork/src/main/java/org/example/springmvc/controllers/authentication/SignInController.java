@@ -11,12 +11,17 @@ import org.example.springmvc.session.AuthContext;
 import org.example.springmvc.validations.flags.Credentials;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Controller
@@ -28,12 +33,14 @@ public class SignInController {
     private final AuthContext authContext;
 
     @GetMapping
-    public String getSignInPage() {
+    public String getSignInPage(Model model) {
+        model.addAttribute("userDto", new UserDto());
         return "sign_in";
     }
 
+    //final @Validated(Credentials.class) UserDto userDto
     @PostMapping(consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-    protected String signIn(final @Validated(Credentials.class) UserDto userDto, final BindingResult bindingResult)
+    protected String signIn(@Validated(Credentials.class) @ModelAttribute UserDto userDto, final BindingResult bindingResult)
             throws InvalidUserDataException, InvalidCredentialException {
         if (bindingResult.hasErrors()) {
             throw new InvalidUserDataException(bindingResult, "sign_in");

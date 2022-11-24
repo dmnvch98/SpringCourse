@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Outgoing friend requests</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+</head>
+<body>
+<div th:replace="/header :: header"></div>
+<div class="container-fluid d-flex align-items-center justify-content-center">
+    <div class="row col-xl-7 col-lg-6 col-md-8 col-sm-9 col-12">
+        <table class="table-striped table-hover">
+            <tbody>
+            <tr th:each="ofr: ${outgoingFriendRequests}">
+                <td th:text="${ofr.getApproveUser().getUsername()}"></td>
+                <td>
+                    <form th:action="@{/friend_request/remove}" method="post">
+                        <input type="hidden" th:value="${ofr.getId()}" name="friendRequestId"/>
+                        <input type="submit" value="Remove">
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>

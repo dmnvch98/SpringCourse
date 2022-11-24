@@ -13,7 +13,7 @@ import java.nio.charset.StandardCharsets;
 import java.security.SecureRandom;
 
 @Configuration
-@PropertySource("classpath:application.properties")
+@PropertySource("classpath:application.yaml")
 @ComponentScan(basePackages = {
         "org.example.springmvc"
 })
@@ -23,7 +23,8 @@ public class AppConfig {
 
     @Bean
     public Hasher hasher() {
-        String secret = environment.getRequiredProperty("hasher.salt");
+        //String secret = environment.getRequiredProperty("hasher.salt");
+        String secret = "SECRET";
         return BCrypt.with(new SecureRandom(secret.getBytes(StandardCharsets.UTF_8)));
     }
 }

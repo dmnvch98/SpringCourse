@@ -17,12 +17,12 @@ import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
-@PropertySource("classpath:application.properties")
+@PropertySource("classpath:application.yaml")
 @ComponentScan(basePackages = {
         "org.example.springmvc"
 })
 @EnableTransactionManagement
-public class JdbcConfig {
+public class HibernateConfig {
 
     @Autowired
     private Environment environment;
@@ -39,18 +39,18 @@ public class JdbcConfig {
     @Bean
     public DataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName(environment.getRequiredProperty("driverClassName"));
+        dataSource.setDriverClassName(environment.getRequiredProperty("driver-class-name"));
         dataSource.setUrl(environment.getRequiredProperty("url"));
-        dataSource.setUsername(environment.getRequiredProperty("username"));
+        dataSource.setUsername(environment.getRequiredProperty("user"));
         dataSource.setPassword(environment.getRequiredProperty("password"));
         return dataSource;
     }
 
     private Properties hibernateProperties() {
         Properties properties = new Properties();
-        properties.put("hibernate.show_sql", environment.getRequiredProperty("hibernate.show_sql"));
-        properties.put("hibernate.current_session_context_class", environment.getRequiredProperty("hibernate.current_session_context_class"));
-        properties.put("hibernate.hbm2ddl.auto", environment.getRequiredProperty("hibernate.hbm2ddl.auto"));
+        properties.put("hibernate.show_sql", environment.getRequiredProperty("show-sql"));
+        //properties.put("hibernate.current_session_context_class", environment.getRequiredProperty("hibernate.current_session_context_class"));
+        properties.put("hibernate.hbm2ddl.auto", environment.getRequiredProperty("ddl-auto"));
         return properties;
     }
 

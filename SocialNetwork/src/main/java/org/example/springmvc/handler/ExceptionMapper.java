@@ -1,6 +1,7 @@
 package org.example.springmvc.handler;
 
 import lombok.extern.log4j.Log4j2;
+import org.example.springmvc.dto.UserDto;
 import org.example.springmvc.exceptions.InvalidCredentialException;
 import org.example.springmvc.exceptions.InvalidUserDataException;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
@@ -33,6 +34,7 @@ public class ExceptionMapper {
         log.error("User entered invalid data: " + errors);
         ModelAndView model = new ModelAndView();
         model.addObject("errors", errors);
+        model.addObject("userDto", new UserDto());
         model.setViewName(exception.getPageToRedirect());
         return model;
     }
