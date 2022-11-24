@@ -1,6 +1,6 @@
 package org.example.springmvc.handler;
 
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import org.example.springmvc.dto.UserDto;
 import org.example.springmvc.exceptions.InvalidCredentialException;
 import org.example.springmvc.exceptions.InvalidUserDataException;
@@ -13,7 +13,7 @@ import java.util.Collections;
 import java.util.List;
 
 @ControllerAdvice
-@Log4j2
+@Slf4j
 public class ExceptionMapper {
 
     @ExceptionHandler(Exception.class)

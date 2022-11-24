@@ -1,7 +1,7 @@
 package org.example.springmvc.controllers.friendrequest;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import org.example.springmvc.dto.RemoveFriendRequestDto;
 import org.example.springmvc.facades.FriendRequestFacade;
 import org.example.springmvc.model.FriendRequest;
@@ -21,7 +21,7 @@ import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
-@Log4j2
+@Slf4j
 @RequestMapping("/friend_request")
 public class FriendRequestController {
     private final FriendRequestService friendRequestService;

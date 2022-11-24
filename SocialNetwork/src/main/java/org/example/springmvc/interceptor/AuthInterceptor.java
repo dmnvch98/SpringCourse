@@ -5,11 +5,12 @@ import javax.servlet.http.HttpServletResponse;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import org.example.springmvc.session.AuthContext;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 @RequiredArgsConstructor
-@Log4j2
+@Slf4j
 public class AuthInterceptor implements HandlerInterceptor {
     private final AuthContext authContext;
 

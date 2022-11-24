@@ -23,8 +23,7 @@ public class AppConfig {
 
     @Bean
     public Hasher hasher() {
-        //String secret = environment.getRequiredProperty("hasher.salt");
-        String secret = "SECRET";
+        String secret = environment.getRequiredProperty("salt");
         return BCrypt.with(new SecureRandom(secret.getBytes(StandardCharsets.UTF_8)));
     }
 }

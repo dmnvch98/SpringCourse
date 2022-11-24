@@ -21,7 +21,6 @@ import org.springframework.web.servlet.view.RedirectView;
 @RequestMapping("/friends")
 public class FriendController {
     private final FriendFacade friendFacade;
-    private final FriendService friendService;
 
     @PostMapping(consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     public RedirectView addFriend(final RemoveFriendRequestDto dto) {

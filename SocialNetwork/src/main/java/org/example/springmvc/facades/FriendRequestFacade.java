@@ -1,8 +1,7 @@
 package org.example.springmvc.facades;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.log4j.Log4j2;
-import org.example.springmvc.model.FriendRequest;
+import lombok.extern.slf4j.Slf4j;
 import org.example.springmvc.model.User;
 import org.example.springmvc.service.FriendRequestService;
 import org.example.springmvc.service.UserService;
@@ -11,7 +10,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-@Log4j2
+@Slf4j
 @RequiredArgsConstructor
 @Component
 public class FriendRequestFacade {

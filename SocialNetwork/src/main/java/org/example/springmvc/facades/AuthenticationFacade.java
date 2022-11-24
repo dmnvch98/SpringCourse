@@ -2,6 +2,7 @@ package org.example.springmvc.facades;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import org.example.springmvc.exceptions.InvalidCredentialException;
 import org.example.springmvc.service.UserService;
 import org.springframework.stereotype.Component;
@@ -9,7 +10,7 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 import java.util.Date;
 
-@Log4j2
+@Slf4j
 @RequiredArgsConstructor
 @Component
 public class AuthenticationFacade {
@@ -34,7 +35,7 @@ public class AuthenticationFacade {
             return true;
         } catch (IOException e) {
             log.info("User run into an issue during signup. User: [{}]", username);
-            log.error(e);
+            log.error(e.getMessage());
         }
         return false;
     }

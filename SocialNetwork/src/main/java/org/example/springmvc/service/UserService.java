@@ -2,12 +2,11 @@ package org.example.springmvc.service;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import org.example.springmvc.exceptions.InvalidCredentialException;
 import org.example.springmvc.model.User;
 import org.example.springmvc.passwordhashing.PasswordHasher;
 import org.example.springmvc.repository.UserDao;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -18,7 +17,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Service
 @Getter
-@Log4j2
+@Slf4j
 public class UserService {
     private final UserDao userDao;
     private final PasswordHasher passwordHasher;

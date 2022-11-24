@@ -1,7 +1,7 @@
 package org.example.springmvc.repository;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import org.example.springmvc.model.FriendRequest;
 import org.example.springmvc.model.User;
 import org.hibernate.Session;
@@ -14,7 +14,7 @@ import javax.persistence.Query;
 import java.util.ArrayList;
 import java.util.List;
 
-@Log4j2
+@Slf4j
 @RequiredArgsConstructor
 @Repository
 public class FriendRequestRepository implements FriendRequestDao {

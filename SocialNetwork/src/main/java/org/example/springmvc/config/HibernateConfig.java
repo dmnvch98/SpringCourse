@@ -49,7 +49,6 @@ public class HibernateConfig {
     private Properties hibernateProperties() {
         Properties properties = new Properties();
         properties.put("hibernate.show_sql", environment.getRequiredProperty("show-sql"));
-        //properties.put("hibernate.current_session_context_class", environment.getRequiredProperty("hibernate.current_session_context_class"));
         properties.put("hibernate.hbm2ddl.auto", environment.getRequiredProperty("ddl-auto"));
         return properties;
     }

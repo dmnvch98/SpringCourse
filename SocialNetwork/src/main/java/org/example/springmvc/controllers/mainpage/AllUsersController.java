@@ -2,6 +2,7 @@ package org.example.springmvc.controllers.mainpage;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import org.example.springmvc.model.User;
 import org.example.springmvc.service.UserService;
 import org.example.springmvc.session.AuthContext;
@@ -16,7 +17,7 @@ import java.util.List;
 @Controller
 @RequestMapping("/allusers")
 @RequiredArgsConstructor
-@Log4j2
+@Slf4j
 public class AllUsersController {
     private final UserService userService;
     private final AuthContext authContext;
