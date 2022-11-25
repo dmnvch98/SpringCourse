@@ -27,25 +27,6 @@
                     <a th:href="@{'/message?recipient_user=' + ${userFriend.getUsername()}}">Send message</a>
                 </td>
             </tr>
-            <!--            <c:forEach var="userFriend" items="${userFriends}">-->
-            <!--                <tr>-->
-            <!--                    <td>-->
-            <!--                        <c:out value="${userFriend.username}"/>-->
-            <!--                    </td>-->
-            <!--                    <td>-->
-            <!--                        <div style="width: 70px">-->
-            <!--                            <form method="post"-->
-            <!--                                  action="${pageContext.request.contextPath}/friends/remove">-->
-            <!--                                <input type="hidden" value="${userFriend.username}" name="friendUsername" />-->
-            <!--                                <input type="submit" value="Remove">-->
-            <!--                            </form>-->
-            <!--                        </div>-->
-            <!--                    </td>-->
-            <!--                    <td>-->
-            <!--                        <a href="${pageContext.request.contextPath}/message?recipient_user=<c:out value="${userFriend.username}"/>">Send message</a>-->
-            <!--                    </td>-->
-            <!--                </tr>-->
-            <!--            </c:forEach>-->
             </tbody>
         </table>
     </div>
