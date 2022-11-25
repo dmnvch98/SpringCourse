@@ -56,14 +56,4 @@ public class UserServiceTest {
         assertDoesNotThrow(() -> sut.save(username, password, role, creationDate));
     }
 
-    @Test
-    public void shouldFilterUsers() {
-        final String username = "any_name3";
-        final String password = "any_password3";
-        final String filterPrefix = "any";
-        List<User> expectedList = List.of(new User(username, password));
-        given(userJpaDao.findUsersByUsernameStartingWith(filterPrefix)).willReturn(Optional.of(expectedList));
-        List<User> list = sut.getAllFilteredUsers(filterPrefix);
-        assertThat(list == expectedList);
-    }
 }

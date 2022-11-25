@@ -1,6 +1,7 @@
 package org.example.springmvc.service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.example.springmvc.model.Friends;
 import org.example.springmvc.model.Message;
 import org.example.springmvc.repository.MessageJpa;
@@ -10,6 +11,7 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @Service
+@Slf4j
 public class MessageService {
 
     private final MessageJpa messageJpa;

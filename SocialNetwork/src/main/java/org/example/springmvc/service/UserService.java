@@ -7,6 +7,8 @@ import org.example.springmvc.exceptions.InvalidCredentialException;
 import org.example.springmvc.model.User;
 import org.example.springmvc.passwordhashing.PasswordHasher;
 import org.example.springmvc.repository.UserJpa;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -22,6 +24,7 @@ public class UserService {
     private final PasswordHasher passwordHasher;
 
     public boolean isExist(final String username) {
+        log.info("Checking if user exists. Username [{}]", username);
         return userJpaDao.existsUserByUsername(username);
     }
 
@@ -48,11 +51,14 @@ public class UserService {
         log.info("Saving user to the db. User [{}]", username);
     }
 
-    public List<User> getAllFilteredUsers(final String prefix) {
+    public List<User> getFilteredUsers(final String prefix, final int pageNumber, final int pageSize) {
+        Pageable page = PageRequest.of(pageNumber, pageSize);
         if (prefix != null) {
-            return userJpaDao.findUsersByUsernameStartingWith(prefix).orElseThrow();
+            log.info("Getting filtered users");
+            return userJpaDao.findUsersByUsernameStartingWith(prefix, page).getContent();
         } else {
-            return userJpaDao.findAll();
+            log.info("Getting all users");
+            return userJpaDao.findAll(page).getContent();
         }
     }
 
@@ -62,6 +68,18 @@ public class UserService {
     }
 
     public List<User> getUserFriends(final long userId) {
+        log.info("Getting user friends. User id [{}]", userId);
         return userJpaDao.findUserFriends(userId).orElse(null);
     }
+
+    public int countAllUsers() {
+        log.info("Getting all users quantity");
+        return userJpaDao.countUsers().orElse(0);
+    }
+
+    public int countFilteredUsers(final String prefix) {
+        log.info("Counting filtered users with prefix [{}]", prefix);
+        return userJpaDao.countFilteredUsers(prefix);
+    }
+
 }

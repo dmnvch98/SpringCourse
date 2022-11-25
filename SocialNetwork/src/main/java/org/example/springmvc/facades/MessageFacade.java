@@ -43,7 +43,6 @@ public class MessageFacade {
         User sender = authContext.getUser();
         User recipient = userService.getUser(recipientUsername);
         Friends friends = friendsService.getFriends(sender, recipient);
-       // List<Message> userMessages = messageService.getUserMessages(sender, recipient);
         List<Message> userMessages = messageService.getUserMessagesByFriends(friends);
         Map<String, Object> attributesMap = new HashMap<>();
         attributesMap.put("userMessages", userMessages);

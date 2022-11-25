@@ -2,32 +2,26 @@ package org.example.springmvc.controllers.mainpage;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.example.springmvc.model.User;
-import org.example.springmvc.service.UserService;
-import org.example.springmvc.session.AuthContext;
+import org.example.springmvc.facades.AllUsersFacade;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.List;
-
 @Controller
 @RequestMapping("/allusers")
 @RequiredArgsConstructor
 @Slf4j
 public class AllUsersController {
-    private final UserService userService;
-    private final AuthContext authContext;
+    private final AllUsersFacade allUsersFacade;
 
     @GetMapping()
-    public String getAllUsers(final ModelMap model,
-                              final @RequestParam(name = "search", required = false) String searchPrefix) {
-        log.info("Filter users with prefix: [{}]", searchPrefix);
-        List<User> users = userService.getAllFilteredUsers(searchPrefix);
-        model.addAttribute("users", users);
-        model.addAttribute("currentUsername", authContext.getCurrentUsername());
+    public String filterUsers(final ModelMap model,
+                              final @RequestParam(name = "search", required = false) String searchPrefix,
+                              final @RequestParam(name = "pageNumber", required = false, defaultValue = "0") Integer pageNumber,
+                              final @RequestParam(name = "pageSize", required = false, defaultValue = "5") Integer pageSize) {
+        model.addAllAttributes(allUsersFacade.filterUsers(searchPrefix, pageNumber, pageSize));
         return "all_users";
     }
 }
