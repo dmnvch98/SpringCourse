@@ -16,17 +16,3 @@ services:
       - ./src/main/resources/db/migration:/flyway/sql
     depends_on:
       - db
-  tomcat:
-    image: "tomcat:9.0.58-jdk17-openjdk-slim"
-    container_name: "tomcat"
-    environment:
-      JPDA_ADDRESS: "*:8000"
-      JPDA_TRANSPORT: "dt_socket"
-    volumes:
-      - "./target/SocialNetwork-1.0-SNAPSHOT.war:/usr/local/tomcat/webapps/servlet.war"
-    ports:
-      - "8080:8080"
-      - "8000:8000"
-    entrypoint: "/usr/local/tomcat/bin/catalina.sh jpda run"
-    depends_on:
-      - flyway-migrator

@@ -47,8 +47,6 @@ public class FriendFacade {
         Friends friends = friendService.getFriends(currentUser, friendUser);
         log.info("User removed friend. Initiator: [{}]", currentUser.getUsername());
         friendService.removeFriend(friends);
-        List<Message> messages = messageService.getUserMessages(friends.getFirstUser(), friends.getSecondUser());
-        messageService.removeMessages(messages);
     }
 
     public List<User> getUserFriends() {

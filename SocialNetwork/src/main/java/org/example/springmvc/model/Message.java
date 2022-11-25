@@ -25,4 +25,6 @@ public class Message {
     private Date messageDate;
     @Column(name = "message_text")
     private String messageText;
+    @ManyToOne
+    private Friends friends;
 }

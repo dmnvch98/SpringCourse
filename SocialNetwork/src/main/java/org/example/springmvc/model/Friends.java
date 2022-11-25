@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "friends")
@@ -22,6 +23,9 @@ public class Friends {
     @ManyToOne
     @JoinColumn(name = "second_user")
     private User secondUser;
+
+    @OneToMany(mappedBy = "friends", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Message> friendsMessages;
 
     public Friends(final User firstUser, final User secondUser) {
         this.firstUser = firstUser;
