@@ -1,6 +1,5 @@
 package org.example.springmvc;
 
-import org.hibernate.jpa.HibernatePersistenceProvider;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 

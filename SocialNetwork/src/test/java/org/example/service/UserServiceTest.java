@@ -62,7 +62,7 @@ public class UserServiceTest {
         final String password = "any_password3";
         final String filterPrefix = "any";
         List<User> expectedList = List.of(new User(username, password));
-        given(userJpaDao.findUsersByUsernameIsLike(filterPrefix)).willReturn(Optional.of(expectedList));
+        given(userJpaDao.findUsersByUsernameStartingWith(filterPrefix)).willReturn(Optional.of(expectedList));
         List<User> list = sut.getAllFilteredUsers(filterPrefix);
         assertThat(list == expectedList);
     }

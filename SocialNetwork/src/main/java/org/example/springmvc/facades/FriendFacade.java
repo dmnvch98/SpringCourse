@@ -4,9 +4,11 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.example.springmvc.model.FriendRequest;
 import org.example.springmvc.model.Friends;
+import org.example.springmvc.model.Message;
 import org.example.springmvc.model.User;
 import org.example.springmvc.service.FriendRequestService;
 import org.example.springmvc.service.FriendService;
+import org.example.springmvc.service.MessageService;
 import org.example.springmvc.service.UserService;
 import org.example.springmvc.session.AuthContext;
 import org.springframework.stereotype.Component;
@@ -24,6 +26,8 @@ public class FriendFacade {
     private final AuthContext authContext;
 
     private final UserService userService;
+
+    private final MessageService messageService;
 
     public void addFriend(final long friendRequestId) {
         FriendRequest friendRequest = friendRequestService.getFriendRequest(friendRequestId);
@@ -43,6 +47,8 @@ public class FriendFacade {
         Friends friends = friendService.getFriends(currentUser, friendUser);
         log.info("User removed friend. Initiator: [{}]", currentUser.getUsername());
         friendService.removeFriend(friends);
+        List<Message> messages = messageService.getUserMessages(friends.getFirstUser(), friends.getSecondUser());
+        messageService.removeMessages(messages);
     }
 
     public List<User> getUserFriends() {

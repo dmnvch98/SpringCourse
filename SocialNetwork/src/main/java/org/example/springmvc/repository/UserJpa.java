@@ -14,7 +14,7 @@ public interface UserJpa extends JpaRepository<User, Long> {
 
     Optional<User> findUserByUsername(String username);
 
-    Optional<List<User>> findUsersByUsernameIsLike(String prefix);
+    Optional<List<User>> findUsersByUsernameStartingWith(String prefix);
 
     Boolean existsUserByUsername(String username);
 

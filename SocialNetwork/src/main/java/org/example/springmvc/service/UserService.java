@@ -51,7 +51,7 @@ public class UserService {
 
     public List<User> getAllFilteredUsers(final String prefix) {
         if (prefix != null) {
-            return userJpaDao.findUsersByUsernameIsLike(prefix).orElseThrow();
+            return userJpaDao.findUsersByUsernameStartingWith(prefix).orElseThrow();
         } else {
             return userJpaDao.findAll();
         }

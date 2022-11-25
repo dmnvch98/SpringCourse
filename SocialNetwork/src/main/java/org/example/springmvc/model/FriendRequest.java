@@ -12,23 +12,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.ManyToOne;
 import javax.persistence.JoinColumn;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 
 @Entity
 @Table(name = "friendRequest")
 @Data
 @NoArgsConstructor
-@NamedQueries({
-        @NamedQuery(name = "getIncomingFriendRequests", query = "select ifr from FriendRequest ifr "
-                + "where ifr.approveUser.username = :username"),
-        @NamedQuery(name = "getOutgoingFriendRequest", query = "select ofr from FriendRequest ofr "
-                + "where ofr.requestUser.username = :username"),
-        @NamedQuery(name = "getFriendRequestById", query = "select fr from FriendRequest fr "
-                + "where fr.id = :requestId"),
-        @NamedQuery(name = "isFriendRequestExists", query = "select fr from FriendRequest fr"
-                + " where fr.approveUser = : approveUser and fr.requestUser = :requestUser")
-})
 public class FriendRequest {
     @Id
     @Column(name = "id")
