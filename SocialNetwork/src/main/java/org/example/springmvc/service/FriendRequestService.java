@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.example.springmvc.model.FriendRequest;
 import org.example.springmvc.model.User;
 import org.example.springmvc.repository.FriendRequestDao;
+import org.example.springmvc.repository.FriendRequestJpa;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,14 +14,18 @@ import java.util.List;
 public class FriendRequestService {
     private final FriendRequestDao friendRequestDao;
 
+    private final FriendRequestJpa friendRequestJpa;
+
     public void createRequest(final User requestUser, final User approveUser) {
-        if (!(friendRequestDao.isExists(requestUser, approveUser))) {
-            friendRequestDao.createRequest(requestUser, approveUser);
+        if (!(friendRequestJpa
+                .existsFriendRequestByRequestUserAndApproveUser(requestUser, approveUser))) {
+            FriendRequest friendRequest = new FriendRequest(requestUser, approveUser);
+            friendRequestJpa.save(friendRequest);
         }
     }
 
-    public void deleteRequest(final FriendRequest friendRequest) {
-        friendRequestDao.deleteRequest(friendRequest);
+    public void deleteRequest(final long id) {
+        friendRequestJpa.deleteFriendRequestById(id);
     }
 
     public List<FriendRequest> getIncomingFriendRequests(final String username) {

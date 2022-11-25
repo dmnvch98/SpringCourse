@@ -25,7 +25,7 @@ import java.util.Date;
         @NamedQuery(name = "getFirstPartUserFriends", query = "select u from User u "
                 + "where u.id in (select f.secondUser.id from Friends f where f.firstUser.id = :userId)"),
         @NamedQuery(name = "getSecondPartUserFriends", query = "select u from User u "
-                + "where u.id in (select f.firstUser.id from Friends f where f.secondUser.id = :userId)")
+                + "where u.id in (select f.firstUser.id from Friends f where f.secondUser.id = :userId)"),
 })
 public class User {
     @Id

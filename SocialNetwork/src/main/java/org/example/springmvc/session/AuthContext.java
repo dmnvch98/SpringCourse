@@ -8,4 +8,5 @@ public class AuthContext {
   private boolean authorized;
   private String currentUsername;
   private User user;
+  private long id;
 }

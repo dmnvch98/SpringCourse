@@ -58,13 +58,10 @@ public class FriendRequestController {
 
     @PostMapping(consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE, path = "/remove")
     public RedirectView removeFriendRequest(final RemoveFriendRequestDto dto) {
-        FriendRequest friendRequest = friendRequestService.getFriendRequest(dto.getFriendRequestId());
-        friendRequestService.deleteRequest(friendRequest);
+        friendRequestService.deleteRequest(dto.getFriendRequestId());
         RedirectView redirectView = new RedirectView("/allusers");
         redirectView.setContextRelative(true);
-        log.info("Remove friends request. Initiator=[{}], Target=[{}]",
-                friendRequest.getRequestUser(),
-                friendRequest.getApproveUser());
+        log.info("Remove friends request. Id [{}]", dto.getFriendRequestId());
         return redirectView;
     }
 }

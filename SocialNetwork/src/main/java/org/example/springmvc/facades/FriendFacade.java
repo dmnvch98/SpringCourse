@@ -34,7 +34,7 @@ public class FriendFacade {
         User firstUser = friendRequest.getApproveUser();
         User secondUser = friendRequest.getRequestUser();
         friendService.addFriend(firstUser, secondUser);
-        friendRequestService.deleteRequest(friendRequest);
+        friendRequestService.deleteRequest(friendRequest.getId());
     }
 
     public void removeFriend(final String friendUsername) {
