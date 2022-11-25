@@ -1,6 +1,5 @@
 package org.example.springmvc;
 
-import org.example.springmvc.model.Message;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 

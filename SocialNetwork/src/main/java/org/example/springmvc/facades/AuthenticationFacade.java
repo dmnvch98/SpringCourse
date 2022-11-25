@@ -1,7 +1,6 @@
 package org.example.springmvc.facades;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.log4j.Log4j2;
 import lombok.extern.slf4j.Slf4j;
 import org.example.springmvc.exceptions.InvalidCredentialException;
 import org.example.springmvc.service.UserService;

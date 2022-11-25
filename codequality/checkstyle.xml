@@ -117,7 +117,8 @@
         </module>
         <module name="MultipleVariableDeclarations"/>
         <module name="InnerTypeLast"/>
-        <module name="HideUtilityClassConstructor"/>
+<!--        Ругается на конструктор в Main-->
+<!--        <module name="HideUtilityClassConstructor"/>-->
         <module name="MutableException"/>
         <module name="OneStatementPerLine"/>
     </module>

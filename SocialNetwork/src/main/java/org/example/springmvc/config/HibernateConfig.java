@@ -5,12 +5,11 @@ import java.util.Properties;
 
 import javax.sql.DataSource;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
-import org.springframework.core.env.Environment;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
@@ -23,9 +22,23 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 })
 @EnableTransactionManagement
 public class HibernateConfig {
+    @Value("${driver-class-name}")
+    private String DRIVER;
 
-    @Autowired
-    private Environment environment;
+    @Value("${password}")
+    private String PASSWORD;
+
+    @Value("${url}")
+    private String URL;
+
+    @Value("${spring.datasource.username}")
+    private String USERNAME;
+
+    @Value("${show-sql}")
+    private String SHOW_SQL;
+
+    @Value("${ddl-auto}")
+    private String HBM2DDL_AUTO;
 
     @Bean
     public LocalSessionFactoryBean sessionFactory() {
@@ -39,17 +52,17 @@ public class HibernateConfig {
     @Bean
     public DataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName(environment.getRequiredProperty("driver-class-name"));
-        dataSource.setUrl(environment.getRequiredProperty("url"));
-        dataSource.setUsername(environment.getRequiredProperty("user"));
-        dataSource.setPassword(environment.getRequiredProperty("password"));
+        dataSource.setDriverClassName(DRIVER);
+        dataSource.setUrl(URL);
+        dataSource.setUsername(USERNAME);
+        dataSource.setPassword(PASSWORD);
         return dataSource;
     }
 
     private Properties hibernateProperties() {
         Properties properties = new Properties();
-        properties.put("hibernate.show_sql", environment.getRequiredProperty("show-sql"));
-        properties.put("hibernate.hbm2ddl.auto", environment.getRequiredProperty("ddl-auto"));
+        properties.put("hibernate.show_sql", SHOW_SQL);
+        properties.put("hibernate.hbm2ddl.auto", HBM2DDL_AUTO);
         return properties;
     }
 
