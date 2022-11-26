@@ -16,7 +16,7 @@ public class AuthInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(final HttpServletRequest request, final HttpServletResponse response,
                              final Object handler) throws Exception {
-        log.info("Trying to access to: [{}]", request.getPathInfo());
+        log.info("Trying to access to: [{}]", request.getRequestURI());
 
         if (authContext.isAuthorized()) {
             return true;
