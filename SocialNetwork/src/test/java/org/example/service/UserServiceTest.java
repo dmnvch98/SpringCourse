@@ -5,9 +5,8 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.BDDMockito.given;
 
-import org.example.springmvc.model.User;
 import org.example.springmvc.passwordhashing.PasswordHasher;
-import org.example.springmvc.repository.UserJpa;
+import org.example.springmvc.repository.UserRepository;
 import org.example.springmvc.service.UserService;
 import org.junit.Ignore;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -18,14 +17,12 @@ import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.util.Date;
-import java.util.List;
-import java.util.Optional;
 
 @Ignore
 @ExtendWith(MockitoExtension.class)
 public class UserServiceTest {
     @Mock
-    private UserJpa userJpaDao;
+    private UserRepository userJpaDao;
 
     @Mock
     private PasswordHasher passwordHasher;

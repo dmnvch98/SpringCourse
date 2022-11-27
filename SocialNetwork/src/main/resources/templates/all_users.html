@@ -38,16 +38,16 @@
     <div>
         <nav aria-label="Page navigation example">
             <ul class="pagination justify-content-center"
-                th:each="index:${#numbers.sequence(0, pageNumbersQty - 1, 1)}">
+                th:each="index:${#numbers.sequence(1, pageNumbersQty, 1)}">
     <!--               Проверка на null нужна что бы не отправлять null как стрингу в параметре фильтрации  -->
                 <div th:if="${search ne null}">
-                    <li class="page-item"><a class="page-link" th:href="@{'/allusers?pageNumber=' + ${index} +
-                            '&pageSize=' + ${pageSize} + '&search=' + ${search}} " th:text="${index + 1}"></a>
+                    <li class="page-item"><a class="page-link" th:href="@{'/allusers?pageNumber=' + ${index - 1} +
+                            '&pageSize=' + ${pageSize} + '&search=' + ${search}} " th:text="${index}"></a>
                     </li>
                 </div>
                 <div th:if="${search == null}">
-                    <li class="page-item"><a class="page-link" th:href="@{'/allusers?pageNumber=' + ${index} +
-                            '&pageSize=' + ${pageSize}} " th:text="${index + 1}"></a>
+                    <li class="page-item"><a class="page-link" th:href="@{'/allusers?pageNumber=' + ${index - 1} +
+                            '&pageSize=' + ${pageSize}} " th:text="${index}"></a>
                     </li>
                 </div>
             </ul>

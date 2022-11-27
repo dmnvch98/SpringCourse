@@ -8,7 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Optional;
 
-public interface FriendRequestJpa extends JpaRepository<FriendRequest, Long> {
+public interface FriendRequestRepository extends JpaRepository<FriendRequest, Long> {
     @Transactional
     void deleteFriendRequestById(long id);
 

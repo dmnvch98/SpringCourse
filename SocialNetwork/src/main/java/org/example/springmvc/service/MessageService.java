@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.example.springmvc.model.Friends;
 import org.example.springmvc.model.Message;
-import org.example.springmvc.repository.MessageJpa;
+import org.example.springmvc.repository.MessageRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,7 +14,7 @@ import java.util.List;
 @Slf4j
 public class MessageService {
 
-    private final MessageJpa messageJpa;
+    private final MessageRepository messageJpa;
 
     public void saveMessage(final Message message) {
         messageJpa.save(message);

@@ -6,7 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.example.springmvc.exceptions.InvalidCredentialException;
 import org.example.springmvc.model.User;
 import org.example.springmvc.passwordhashing.PasswordHasher;
-import org.example.springmvc.repository.UserJpa;
+import org.example.springmvc.repository.UserRepository;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -20,12 +20,17 @@ import java.util.List;
 @Getter
 @Slf4j
 public class UserService {
-    private final UserJpa userJpaDao;
+    private final UserRepository userJpaDao;
     private final PasswordHasher passwordHasher;
 
     public boolean isExist(final String username) {
         log.info("Checking if user exists. Username [{}]", username);
         return userJpaDao.existsUserByUsername(username);
+    }
+
+    public boolean isExist(final long id) {
+        log.info("Checking if user exists. Id [{}]", id);
+        return userJpaDao.existsUserById(id);
     }
 
     public boolean verifyUser(final String username, final String password) throws InvalidCredentialException {
@@ -64,7 +69,12 @@ public class UserService {
 
     public User getUser(final String username) {
         log.info("Getting user from db by username. User [{}]", username);
-        return userJpaDao.findUserByUsername(username).orElseThrow();
+        return userJpaDao.findUserByUsername(username).orElse(null);
+    }
+
+    public User getUser(final long id) {
+        log.info("Getting user from db by id. UserId [{}]", id);
+        return userJpaDao.findUserById(id).orElse(null);
     }
 
     public List<User> getUserFriends(final long userId) {
@@ -72,14 +82,17 @@ public class UserService {
         return userJpaDao.findUserFriends(userId).orElse(null);
     }
 
-    public int countAllUsers() {
+    public long countAllUsers() {
         log.info("Getting all users quantity");
-        return userJpaDao.countUsers().orElse(0);
+        return userJpaDao.count();
     }
 
-    public int countFilteredUsers(final String prefix) {
+    public long countFilteredUsers(final String prefix) {
         log.info("Counting filtered users with prefix [{}]", prefix);
-        return userJpaDao.countFilteredUsers(prefix);
+        return userJpaDao.countByUsernameStartingWith(prefix);
     }
 
+    public Integer deleteUserById(final long id) {
+        return userJpaDao.deleteUserById(id);
+    }
 }

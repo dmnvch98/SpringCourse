@@ -35,7 +35,6 @@
         <module name="MethodParamPad"/>
         <module name="NoWhitespaceAfter"/>
         <module name="NoWhitespaceBefore"/>
-        <module name="ParenPad"/>
         <module name="TypecastParenPad">
             <property name="option" value="nospace"/>
         </module>

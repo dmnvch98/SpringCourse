@@ -3,7 +3,7 @@ package org.example.springmvc.service;
 import lombok.RequiredArgsConstructor;
 import org.example.springmvc.model.FriendRequest;
 import org.example.springmvc.model.User;
-import org.example.springmvc.repository.FriendRequestJpa;
+import org.example.springmvc.repository.FriendRequestRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,7 +11,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Service
 public class FriendRequestService {
-    private final FriendRequestJpa friendRequestJpa;
+    private final FriendRequestRepository friendRequestJpa;
 
     public void createRequest(final User requestUser, final User approveUser) {
         if (!(friendRequestJpa

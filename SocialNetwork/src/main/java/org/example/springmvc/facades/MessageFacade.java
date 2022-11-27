@@ -9,7 +9,6 @@ import org.example.springmvc.model.User;
 import org.example.springmvc.service.FriendService;
 import org.example.springmvc.service.MessageService;
 import org.example.springmvc.service.UserService;
-import org.example.springmvc.session.AuthContext;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
@@ -23,10 +22,7 @@ public class MessageFacade {
 
     private final FriendService friendsService;
 
-    private final AuthContext authContext;
-
-    public void sendMessage(final FriendDto friendDto, final String messageText) {
-        User sender = authContext.getUser();
+    public void sendMessage(final FriendDto friendDto, final String messageText, final User sender) {
         User recipient = userService.getUser(friendDto.getFriendUsername());
         Friends friends = friendsService.getFriends(sender, recipient);
         Message message = new Message();
@@ -39,8 +35,7 @@ public class MessageFacade {
         log.info("Message was sent. Sender=[{}], Recipient=[{}]", sender.getUsername(), recipient.getUsername());
     }
 
-    public Map<String, Object> getUserMessages(String recipientUsername) {
-        User sender = authContext.getUser();
+    public Map<String, Object> getUserMessages(String recipientUsername, User sender) {
         User recipient = userService.getUser(recipientUsername);
         Friends friends = friendsService.getFriends(sender, recipient);
         List<Message> userMessages = messageService.getUserMessagesByFriends(friends);

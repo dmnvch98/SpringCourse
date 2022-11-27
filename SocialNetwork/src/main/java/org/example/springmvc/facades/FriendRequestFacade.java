@@ -12,12 +12,10 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 @Component
 public class FriendRequestFacade {
-    private final AuthContext authContext;
     private final UserService userService;
     private final FriendRequestService friendRequestService;
 
-    public void createFriendRequest(String approveUsername) {
-        User requestUser = authContext.getUser();
+    public void createFriendRequest(User requestUser, String approveUsername) {
         User approveUser = userService.getUser(approveUsername);
         friendRequestService.createRequest(requestUser, approveUser);
         log.info("Create friend request. Initiator=[{}], Target=[{}]", requestUser, approveUser);

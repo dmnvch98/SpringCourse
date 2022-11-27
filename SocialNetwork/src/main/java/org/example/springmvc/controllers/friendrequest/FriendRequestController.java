@@ -51,7 +51,7 @@ public class FriendRequestController {
 
     @PostMapping(consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     public RedirectView createFriendRequest(final @NotNull @NotEmpty String approveUsername) {
-        friendRequestFacade.createFriendRequest(approveUsername);
+        friendRequestFacade.createFriendRequest(authContext.getUser(), approveUsername);
         RedirectView redirectView = new RedirectView("/allusers");
         redirectView.setContextRelative(true);
         return redirectView;
