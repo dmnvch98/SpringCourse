@@ -35,20 +35,15 @@ public class SignInController {
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-    protected String signIn(@Validated(Credentials.class) @ModelAttribute UserDto userDto, final BindingResult bindingResult)
-            throws InvalidUserDataException, InvalidCredentialException {
-        if (bindingResult.hasErrors()) {
-            throw new InvalidUserDataException(bindingResult, "sign_in");
+    protected String signIn(@Validated(Credentials.class) @ModelAttribute UserDto userDto) throws InvalidCredentialException {
+        if (authorizationFacade.signIn(userDto.getUsername(), userDto.getPassword())) {
+            User currentUser = userService.getUser(userDto.getUsername());
+            authContext.setUser(currentUser);
+            authContext.setCurrentUsername(currentUser.getUsername());
+            authContext.setAuthorized(true);
+            return "redirect:allusers";
         } else {
-            if (authorizationFacade.signIn(userDto.getUsername(), userDto.getPassword())) {
-                User currentUser = userService.getUser(userDto.getUsername());
-                authContext.setUser(currentUser);
-                authContext.setCurrentUsername(currentUser.getUsername());
-                authContext.setAuthorized(true);
-                return "redirect:allusers";
-            } else {
-                return "redirect:signin";
-            }
+            return "redirect:signin";
         }
     }
 }

@@ -11,12 +11,10 @@ import org.example.springmvc.validations.flags.Unique;
 import org.springframework.format.annotation.NumberFormat;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/v1/users")
@@ -50,23 +48,14 @@ public class UserController {
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Object> createUser(@Validated(Unique.class) @RequestBody final UserDto userDto, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            return ResponseEntity.badRequest().body(bindingResult
-                    .getFieldErrors()
-                    .stream()
-                    .map(x -> Optional.ofNullable(x.getDefaultMessage()).orElse("unknown error"))
-                    .toList()
-                    .toString());
-        } else {
+    public ResponseEntity<UserRestDto> createUser(@Validated(Unique.class) @RequestBody final UserDto userDto) {
             if (authenticationFacade.signUp(userDto.getUsername(), userDto.getPassword())) {
                 User currentUser = userService.getUser(userDto.getUsername());
                 return ResponseEntity.ok(userConverter.userToUserRestDto(currentUser));
             } else {
                 return null;
             }
-        }
-    }
+       }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Object> deleteUser(@PathVariable long id) {

@@ -43,7 +43,7 @@ public class UserService {
                 return true;
             }
         } else {
-            log.info("User provides invalid data. Username [{}]", username);
+            log.warn("User provides invalid data. Username [{}]", username);
             throw new InvalidCredentialException();
         }
     }

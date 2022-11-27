@@ -33,11 +33,7 @@ public class SignUpController {
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-    protected String signUp(@Validated(Unique.class) final UserDto userDto,
-                            BindingResult bindingResult) throws InvalidUserDataException {
-        if (bindingResult.hasErrors()) {
-            throw new InvalidUserDataException(bindingResult, "sign_up");
-        } else {
+    protected String signUp(@Validated(Unique.class) final UserDto userDto) {
             if (authorizationFacade.signUp(userDto.getUsername(), userDto.getPassword())) {
                 User currentUser = userService.getUser(userDto.getUsername());
                 authContext.setUser(currentUser);
@@ -48,5 +44,4 @@ public class SignUpController {
                 return "redirect:signup";
             }
         }
-    }
 }
