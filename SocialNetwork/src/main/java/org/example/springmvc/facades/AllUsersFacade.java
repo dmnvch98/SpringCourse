@@ -21,12 +21,10 @@ public class AllUsersFacade {
         } else {
             usersQty = userService.countAllUsers();
         }
-        int pageNumbersQty = Math.round((float) usersQty / pageSize);
         List<User> users = userService.getFilteredUsers(searchPrefix, pageNumber, pageSize);
         Map<String, Object> attributesMap = new HashMap<>();
         attributesMap.put("users", users);
         attributesMap.put("usersQty", usersQty);
-        attributesMap.put("pageNumbersQty", pageNumbersQty);
         return attributesMap;
     }
 }
