@@ -4,5 +4,6 @@ create table messages (
                           message_text text,
                           recipient_user_id int8,
                           sender_user_id int8,
+                          friends_id int8,
                           primary key (id)
 )

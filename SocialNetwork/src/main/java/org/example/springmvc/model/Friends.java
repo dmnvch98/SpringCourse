@@ -5,15 +5,12 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "friends")
 @Data
 @NoArgsConstructor
-@NamedQueries({
-        @NamedQuery(name = "getFriendsRecord", query = "select f from Friends f where f.firstUser = : user1 "
-                + "and f.secondUser = :user2 or f.firstUser = :user2 and f.secondUser = :user1")
-})
 public class Friends {
     @Id
     @Column(name = "id")
@@ -26,6 +23,9 @@ public class Friends {
     @ManyToOne
     @JoinColumn(name = "second_user")
     private User secondUser;
+
+    @OneToMany(mappedBy = "friends", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Message> friendsMessages;
 
     public Friends(final User firstUser, final User secondUser) {
         this.firstUser = firstUser;

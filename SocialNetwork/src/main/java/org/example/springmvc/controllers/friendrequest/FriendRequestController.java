@@ -1,10 +1,11 @@
 package org.example.springmvc.controllers.friendrequest;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import org.example.springmvc.dto.RemoveFriendRequestDto;
 import org.example.springmvc.facades.FriendRequestFacade;
 import org.example.springmvc.model.FriendRequest;
+import org.example.springmvc.model.User;
 import org.example.springmvc.service.FriendRequestService;
 import org.example.springmvc.session.AuthContext;
 import org.springframework.http.MediaType;
@@ -21,7 +22,7 @@ import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
-@Log4j2
+@Slf4j
 @RequestMapping("/friend_request")
 public class FriendRequestController {
     private final FriendRequestService friendRequestService;
@@ -32,25 +33,25 @@ public class FriendRequestController {
 
     @GetMapping(path = "/outgoing")
     public String getOutgoingFriendRequests(final ModelMap model) {
-        String currentUsername = authContext.getCurrentUsername();
-        List<FriendRequest> outgoingFriendRequests = friendRequestService.getOutgoingFriendRequests(currentUsername);
+        User currentUser = authContext.getUser();
+        List<FriendRequest> outgoingFriendRequests = friendRequestService.getOutgoingFriendRequests(currentUser);
         model.addAttribute("outgoingFriendRequests", outgoingFriendRequests);
-        log.info("Getting outgoing friends requests for user: [{}] ", currentUsername);
+        log.info("Getting outgoing friends requests for user: [{}] ", currentUser.getUsername());
         return "outgoing_friend_requests";
     }
 
     @GetMapping(path = "/incoming")
     public String getIncomingFriendRequests(final ModelMap model) {
-        String currentUsername = authContext.getCurrentUsername();
-        List<FriendRequest> incomingFriendRequests = friendRequestService.getIncomingFriendRequests(currentUsername);
+        User currentUser = authContext.getUser();
+        List<FriendRequest> incomingFriendRequests = friendRequestService.getIncomingFriendRequests(currentUser);
         model.addAttribute("incomingFriendRequests", incomingFriendRequests);
-        log.info("Getting incoming friends requests for user: [{}] ", currentUsername);
+        log.info("Getting incoming friends requests for user: [{}] ", currentUser.getUsername());
         return "incoming_friend_requests";
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     public RedirectView createFriendRequest(final @NotNull @NotEmpty String approveUsername) {
-        friendRequestFacade.createFriendRequest(approveUsername);
+        friendRequestFacade.createFriendRequest(authContext.getUser(), approveUsername);
         RedirectView redirectView = new RedirectView("/allusers");
         redirectView.setContextRelative(true);
         return redirectView;
@@ -58,13 +59,10 @@ public class FriendRequestController {
 
     @PostMapping(consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE, path = "/remove")
     public RedirectView removeFriendRequest(final RemoveFriendRequestDto dto) {
-        FriendRequest friendRequest = friendRequestService.getFriendRequest(dto.getFriendRequestId());
-        friendRequestService.deleteRequest(friendRequest);
+        friendRequestService.deleteRequest(dto.getFriendRequestId());
         RedirectView redirectView = new RedirectView("/allusers");
         redirectView.setContextRelative(true);
-        log.info("Remove friends request. Initiator=[{}], Target=[{}]",
-                friendRequest.getRequestUser(),
-                friendRequest.getApproveUser());
+        log.info("Remove friends request. Id [{}]", dto.getFriendRequestId());
         return redirectView;
     }
 }

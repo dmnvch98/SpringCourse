@@ -9,10 +9,6 @@ import java.util.Date;
 @Entity
 @Table(name = "messages")
 @Data
-@NamedQueries({
-        @NamedQuery(name = "getUserDialog", query = "select m from Message m where m.recipient = :user1 and "
-                + " m.sender = :user2 or m.recipient = :user2 and m.sender = :user1 order by m.messageDate")
-})
 public class Message {
     @Id
     @Column(name = "id")
@@ -29,4 +25,6 @@ public class Message {
     private Date messageDate;
     @Column(name = "message_text")
     private String messageText;
+    @ManyToOne
+    private Friends friends;
 }

@@ -1,12 +1,13 @@
 package org.example.springmvc.exceptions;
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 import org.springframework.validation.BindingResult;
 
-@RequiredArgsConstructor
+@NoArgsConstructor
+@AllArgsConstructor
+@Setter
 @Getter
 public class InvalidUserDataException extends Exception {
-    private final BindingResult bindingResult;
-    private final String pageToRedirect;
+    private BindingResult bindingResult;
+    private String pageToRedirect;
 }
