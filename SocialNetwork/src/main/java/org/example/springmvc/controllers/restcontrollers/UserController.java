@@ -22,6 +22,9 @@ import java.util.Optional;
 @RequestMapping("/api/v1/users")
 @RequiredArgsConstructor
 public class UserController {
+    public static final String DEFAULT_PAGE_SIZE = "5";
+    public static final String DEFAULT_PAGE_NUMBER = "0";
+
     private final UserService userService;
     private final UserConverter userConverter;
 
@@ -38,8 +41,8 @@ public class UserController {
 
     @GetMapping()
     public ResponseEntity<List<UserRestDto>> getUsers(final @RequestParam(name = "search", required = false) String searchPrefix,
-                                   final @RequestParam(name = "pageNumber", required = false, defaultValue = "0") Integer pageNumber,
-                                   final @RequestParam(name = "pageSize", required = false, defaultValue = "5") Integer pageSize) {
+    final @RequestParam(name = "pageNumber", required = false, defaultValue = DEFAULT_PAGE_NUMBER) Integer pageNumber,
+    final @RequestParam(name = "pageSize", required = false, defaultValue = DEFAULT_PAGE_SIZE) Integer pageSize) {
         return ResponseEntity.ok(userService
                 .getFilteredUsers(searchPrefix, pageNumber, pageSize).stream()
                 .map(userConverter::userToUserRestDto)
@@ -76,5 +79,4 @@ public class UserController {
         }
         return ResponseEntity.internalServerError().body("Some error occurred");
     }
-
 }
