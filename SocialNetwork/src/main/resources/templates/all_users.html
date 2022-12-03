@@ -24,7 +24,7 @@
                     <td th:text="${user.getUsername()}"/>
                     <td th:if="${user.getUsername() != currentUsername}">
                         <div style="width: 70px">
-                            <form method="post" th:action="@{/friend_request}" action="#">
+                            <form method="post" th:action="@{/view/friend_request}" action="#">
                                 <input type="hidden" th:value="${user.getUsername()}" name="approveUsername"/>
                                 <input type="submit" value="Add to friends">
                             </form>
@@ -41,12 +41,12 @@
                 th:each="index:${#numbers.sequence(1, T(java.lang.Math).ceil(usersQty / (pageSize * 1.0)), 1)}">
     <!--               Проверка на null нужна что бы не отправлять null как стрингу в параметре фильтрации  -->
                 <div th:if="${search ne null}">
-                    <li class="page-item"><a class="page-link" th:href="@{'/allusers?pageNumber=' + ${index - 1} +
+                    <li class="page-item"><a class="page-link" th:href="@{'/view/allusers?pageNumber=' + ${index - 1} +
                             '&pageSize=' + ${pageSize} + '&search=' + ${search}} " th:text="${index}"></a>
                     </li>
                 </div>
                 <div th:if="${search == null}">
-                    <li class="page-item"><a class="page-link" th:href="@{'/allusers?pageNumber=' + ${index - 1} +
+                    <li class="page-item"><a class="page-link" th:href="@{'/view/allusers?pageNumber=' + ${index - 1} +
                             '&pageSize=' + ${pageSize}} " th:text="${index}"></a>
                     </li>
                 </div>

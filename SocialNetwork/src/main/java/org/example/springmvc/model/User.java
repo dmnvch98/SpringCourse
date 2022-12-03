@@ -30,6 +30,8 @@ public class User {
     private String role;
     @Column(name = "created_at")
     private Date createdAt;
+    @Column(name = "refresh_token")
+    private String refreshToken;
 
     public User(final String username, final String password) {
         this.username = username;

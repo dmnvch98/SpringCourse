@@ -23,7 +23,7 @@ import java.util.List;
 @Controller
 @RequiredArgsConstructor
 @Slf4j
-@RequestMapping("/friend_request")
+@RequestMapping("/view/friend_request")
 public class FriendRequestController {
     private final FriendRequestService friendRequestService;
 
@@ -52,7 +52,7 @@ public class FriendRequestController {
     @PostMapping(consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     public RedirectView createFriendRequest(final @NotNull @NotEmpty String approveUsername) {
         friendRequestFacade.createFriendRequest(authContext.getUser(), approveUsername);
-        RedirectView redirectView = new RedirectView("/allusers");
+        RedirectView redirectView = new RedirectView("/view/allusers");
         redirectView.setContextRelative(true);
         return redirectView;
     }
@@ -60,7 +60,7 @@ public class FriendRequestController {
     @PostMapping(consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE, path = "/remove")
     public RedirectView removeFriendRequest(final RemoveFriendRequestDto dto) {
         friendRequestService.deleteRequest(dto.getFriendRequestId());
-        RedirectView redirectView = new RedirectView("/allusers");
+        RedirectView redirectView = new RedirectView("/view/allusers");
         redirectView.setContextRelative(true);
         log.info("Remove friends request. Id [{}]", dto.getFriendRequestId());
         return redirectView;

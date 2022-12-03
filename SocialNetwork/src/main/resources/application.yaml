@@ -12,5 +12,6 @@ spring:
   thymeleaf:
     prefix: classpath:/templates/
     suffix: .html
-  hasher:
-    salt: SECRET
+  jwt:
+    secret: SECRET
+    refreshSecret: REFRESHSECRET

@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
-@RequestMapping("/allusers")
+@RequestMapping("/view/allusers")
 @RequiredArgsConstructor
 @Slf4j
 public class AllUsersController {

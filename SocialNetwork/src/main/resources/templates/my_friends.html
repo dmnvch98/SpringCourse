@@ -17,14 +17,14 @@
                 <td th:text="${userFriend.getUsername()}"></td>
                 <td>
                     <div style="width: 70px">
-                        <form th:action="@{/friends/remove}" method="post">
+                        <form th:action="@{/view/friends/remove}" method="post">
                             <input type="hidden" th:value="${userFriend.getUsername()}" name="friendUsername"/>
                             <input type="submit" value="Remove">
                         </form>
                     </div>
                 </td>
                 <td>
-                    <a th:href="@{'/message?recipient_user=' + ${userFriend.getUsername()}}">Send message</a>
+                    <a th:href="@{'/view/message?recipient_user=' + ${userFriend.getUsername()}}">Send message</a>
                 </td>
             </tr>
             </tbody>

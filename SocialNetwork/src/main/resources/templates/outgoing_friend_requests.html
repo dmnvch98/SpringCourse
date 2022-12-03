@@ -16,7 +16,7 @@
             <tr th:each="ofr: ${outgoingFriendRequests}">
                 <td th:text="${ofr.getApproveUser().getUsername()}"></td>
                 <td>
-                    <form th:action="@{/friend_request/remove}" method="post">
+                    <form th:action="@{/view/friend_request/remove}" method="post">
                         <input type="hidden" th:value="${ofr.getId()}" name="friendRequestId"/>
                         <input type="submit" value="Remove">
                     </form>

@@ -18,7 +18,7 @@
             </div>
         </tr>
         <h2 class="mb-3">Sign in</h2>
-        <form th:action="@{/signin}" method="post" th:object="${userDto}">
+        <form th:action="@{/view/signin}" method="post" th:object="${userDto}">
             <div class="mb-3">
                 <label for="username" class="form-label">Username</label>
                 <input th:field="*{username}" class="form-control" id="username" >
@@ -28,9 +28,10 @@
                 <input th:field="*{password}" type="password" class="form-control" id="password" >
             </div>
             <div class="btns">
-                <a href="${pageContext.request.contextPath}/signup" class="btn btn-outline-primary">Sign up</a>
+                <a href="${pageContext.request.contextPath}/view/signup" class="btn btn-outline-primary">Sign up</a>
                 <button type="submit" class="btn btn-primary">Submit</button>
             </div>
+            <input type="hidden" th:value="${userDto.getRole()}" name="role"/>
         </form>
     </div>
 </div>

@@ -3,7 +3,6 @@ package org.example.springmvc.controllers.authentication;
 import lombok.RequiredArgsConstructor;
 import org.example.springmvc.dto.UserDto;
 import org.example.springmvc.exceptions.InvalidCredentialException;
-import org.example.springmvc.exceptions.InvalidUserDataException;
 import org.example.springmvc.facades.AuthenticationFacade;
 import org.example.springmvc.model.User;
 import org.example.springmvc.service.UserService;
@@ -12,7 +11,6 @@ import org.example.springmvc.validations.flags.Credentials;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -21,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 
 @Controller
-@RequestMapping("/signin")
+@RequestMapping("/view/signin")
 @RequiredArgsConstructor
 public class SignInController {
     private final AuthenticationFacade authorizationFacade;
@@ -30,7 +28,9 @@ public class SignInController {
 
     @GetMapping
     public String getSignInPage(Model model) {
-        model.addAttribute("userDto", new UserDto());
+        UserDto userDto = new UserDto();
+        userDto.setRole("USER");
+        model.addAttribute("userDto", userDto);
         return "sign_in";
     }
 

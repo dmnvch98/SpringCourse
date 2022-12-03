@@ -21,15 +21,15 @@ public class AuthenticationFacade {
             log.info("User logged in successfully: username: [{}]", username);
             return true;
         } else {
-            log.info("User failed to login: username: [{}]", username);
-            return false;
+            log.warn("User provides invalid data. Username [{}]", username);
+            throw new InvalidCredentialException();
         }
     }
 
-    public boolean signUp(final String username, final String password) {
+    public boolean signUp(final String username, final String password, final String role) {
         log.info("Attempt to signup with username: [{}]", username);
         try {
-            userService.save(username, password, "USER", new Date());
+            userService.save(username, password, role, new Date());
             log.info("User signed up successfully: username [{}]", username);
             return true;
         } catch (IOException e) {

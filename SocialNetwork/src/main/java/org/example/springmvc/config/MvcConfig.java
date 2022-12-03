@@ -17,7 +17,7 @@ public class MvcConfig implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(new MappedInterceptor(new String[]{"/allusers"}, new AuthInterceptor(authContext)));
+        registry.addInterceptor(new MappedInterceptor(new String[]{"/view/allusers"}, new AuthInterceptor(authContext)));
     }
 
     @Override

@@ -5,7 +5,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.example.springmvc.model.User;
 import org.example.springmvc.service.FriendRequestService;
 import org.example.springmvc.service.UserService;
-import org.example.springmvc.session.AuthContext;
 import org.springframework.stereotype.Component;
 
 @Slf4j

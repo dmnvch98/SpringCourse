@@ -5,7 +5,6 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.BDDMockito.given;
 
-import org.example.springmvc.passwordhashing.PasswordHasher;
 import org.example.springmvc.repository.UserRepository;
 import org.example.springmvc.service.UserService;
 import org.junit.Ignore;
@@ -24,8 +23,6 @@ public class UserServiceTest {
     @Mock
     private UserRepository userJpaDao;
 
-    @Mock
-    private PasswordHasher passwordHasher;
     @InjectMocks
     private UserService sut;
 
