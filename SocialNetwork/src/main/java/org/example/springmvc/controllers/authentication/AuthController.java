@@ -40,7 +40,7 @@ public class AuthController {
     @PostMapping("access")
     public ResponseEntity<JwtResponse> getAccessToken(@RequestBody final RefreshTokenDto dto) {
         if (jwt.validateRefreshToken(dto.getRefreshToken())) {
-            String username = jwt.getLoginFromToken(dto.getRefreshToken(), jwt.getJwtRefreshSecret());
+            String username = jwt.getLoginFromRefreshToken(dto.getRefreshToken());
             User user = userService.getUser(username);
             if (user.getRefreshToken() != null && user.getRefreshToken().equals(dto.getRefreshToken())) {
                 String accessToken = jwt.generateAccessToken(user);
@@ -53,11 +53,13 @@ public class AuthController {
     @PostMapping("refresh")
     public ResponseEntity<JwtResponse> refreshTokens(@RequestBody final RefreshTokenDto dto) {
         if (jwt.validateRefreshToken(dto.getRefreshToken())) {
-            String username = jwt.getLoginFromToken(dto.getRefreshToken(), jwt.getJwtRefreshSecret());
+            String username = jwt.getLoginFromRefreshToken(dto.getRefreshToken());
             User user = userService.getUser(username);
             if (user.getRefreshToken() != null && user.getRefreshToken().equals(dto.getRefreshToken())) {
                 String accessToken = jwt.generateAccessToken(user);
                 String refreshToken = jwt.generateRefreshToken(username);
+                user.setRefreshToken(refreshToken);
+                userService.updateUser(user);
                 return ResponseEntity.ok(new JwtResponse(accessToken, refreshToken));
             }
         }

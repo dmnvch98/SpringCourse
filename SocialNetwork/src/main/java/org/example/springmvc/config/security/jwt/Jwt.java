@@ -77,4 +77,12 @@ public class Jwt {
         return claims.getSubject();
     }
 
+    public String getLoginFromAccessToken(String token) {
+        return getLoginFromToken(token, jwtSecret);
+    }
+
+    public String getLoginFromRefreshToken(String token) {
+        return getLoginFromToken(token, jwtRefreshSecret);
+    }
+
 }
