@@ -96,4 +96,8 @@ public class UserService {
     public Integer deleteUserById(final long id) {
         return userJpaDao.deleteUserById(id);
     }
+
+    public void updateUser(User user) {
+        userJpaDao.save(user);
+    }
 }

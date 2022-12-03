@@ -4,6 +4,7 @@ create table users (
                        password varchar(255),
                        role varchar(255),
                        username varchar(255),
+                       refresh_token varchar(255),
                        primary key (id)
 );
 

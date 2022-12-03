@@ -3,8 +3,9 @@ package org.example.springmvc.controllers.authentication;
 
 import lombok.RequiredArgsConstructor;
 import org.example.springmvc.config.security.jwt.Jwt;
-import org.example.springmvc.dto.AuthResultDto;
+import org.example.springmvc.dto.JwtResponse;
 import org.example.springmvc.dto.CredentialsDto;
+import org.example.springmvc.dto.RefreshTokenDto;
 import org.example.springmvc.exceptions.InvalidCredentialException;
 import org.example.springmvc.model.User;
 import org.example.springmvc.service.UserService;
@@ -21,15 +22,31 @@ public class AuthController {
     private final UserService userService;
     private final Jwt jwt;
 
-    @PostMapping
-    public AuthResultDto authorize(@RequestBody final CredentialsDto credentials) throws InvalidCredentialException {
+    @PostMapping("login")
+    public JwtResponse authorize(@RequestBody final CredentialsDto credentials) throws InvalidCredentialException {
         if (userService.verifyUser(credentials.getUsername(), credentials.getPassword())) {
             User user = userService.getUser(credentials.getUsername());
-            String token = jwt.generateToken(user.getUsername());
-            return new AuthResultDto(token);
+            String accessToken = jwt.generateAccessToken(user);
+            String refreshToken = jwt.generateRefreshToken(user.getUsername());
+            user.setRefreshToken(refreshToken);
+            userService.updateUser(user);
+            return new JwtResponse(accessToken, refreshToken);
         } else {
             return null;
         }
+    }
+
+    @PostMapping("access")
+    public JwtResponse getAccessToken(@RequestBody final RefreshTokenDto dto) {
+        if (jwt.validateRefreshToken(dto.getRefreshToken())) {
+            String username = jwt.getLoginFromToken(dto.getRefreshToken(), jwt.getJwtRefreshSecret());
+            User user = userService.getUser(username);
+            if (user.getRefreshToken() != null && user.getRefreshToken().equals(dto.getRefreshToken())) {
+                final String accessToken = jwt.generateAccessToken(user);
+                return new JwtResponse(accessToken, null);
+            }
+        }
+        return new JwtResponse(null, null);
     }
 
 }

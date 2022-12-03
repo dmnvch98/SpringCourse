@@ -14,3 +14,4 @@ spring:
     suffix: .html
   jwt:
     secret: SECRET
+    refreshSecret: REFRESHSECRET
