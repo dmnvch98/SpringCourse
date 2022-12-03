@@ -1,9 +1,13 @@
 package org.example.springmvc.dto;
 
-import lombok.Value;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-@Value
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class JwtResponse {
-  String accessToken;
-  String refreshToken;
+  private String accessToken;
+  private String refreshToken;
 }

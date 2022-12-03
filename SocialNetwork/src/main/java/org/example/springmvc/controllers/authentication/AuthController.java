@@ -9,6 +9,7 @@ import org.example.springmvc.dto.RefreshTokenDto;
 import org.example.springmvc.exceptions.InvalidCredentialException;
 import org.example.springmvc.model.User;
 import org.example.springmvc.service.UserService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,30 +24,44 @@ public class AuthController {
     private final Jwt jwt;
 
     @PostMapping("login")
-    public JwtResponse authorize(@RequestBody final CredentialsDto credentials) throws InvalidCredentialException {
+    public ResponseEntity<JwtResponse> authorize(@RequestBody final CredentialsDto credentials) throws InvalidCredentialException {
         if (userService.verifyUser(credentials.getUsername(), credentials.getPassword())) {
             User user = userService.getUser(credentials.getUsername());
             String accessToken = jwt.generateAccessToken(user);
             String refreshToken = jwt.generateRefreshToken(user.getUsername());
             user.setRefreshToken(refreshToken);
             userService.updateUser(user);
-            return new JwtResponse(accessToken, refreshToken);
+            return ResponseEntity.ok(new JwtResponse(accessToken, refreshToken));
         } else {
-            return null;
+            return ResponseEntity.noContent().build();
         }
     }
 
     @PostMapping("access")
-    public JwtResponse getAccessToken(@RequestBody final RefreshTokenDto dto) {
+    public ResponseEntity<JwtResponse> getAccessToken(@RequestBody final RefreshTokenDto dto) {
         if (jwt.validateRefreshToken(dto.getRefreshToken())) {
             String username = jwt.getLoginFromToken(dto.getRefreshToken(), jwt.getJwtRefreshSecret());
             User user = userService.getUser(username);
             if (user.getRefreshToken() != null && user.getRefreshToken().equals(dto.getRefreshToken())) {
-                final String accessToken = jwt.generateAccessToken(user);
-                return new JwtResponse(accessToken, null);
+                String accessToken = jwt.generateAccessToken(user);
+                return ResponseEntity.ok(new JwtResponse(accessToken, null));
             }
         }
-        return new JwtResponse(null, null);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("refresh")
+    public ResponseEntity<JwtResponse> refreshTokens(@RequestBody final RefreshTokenDto dto) {
+        if (jwt.validateRefreshToken(dto.getRefreshToken())) {
+            String username = jwt.getLoginFromToken(dto.getRefreshToken(), jwt.getJwtRefreshSecret());
+            User user = userService.getUser(username);
+            if (user.getRefreshToken() != null && user.getRefreshToken().equals(dto.getRefreshToken())) {
+                String accessToken = jwt.generateAccessToken(user);
+                String refreshToken = jwt.generateRefreshToken(username);
+                return ResponseEntity.ok(new JwtResponse(accessToken, refreshToken));
+            }
+        }
+        return ResponseEntity.noContent().build();
     }
 
 }

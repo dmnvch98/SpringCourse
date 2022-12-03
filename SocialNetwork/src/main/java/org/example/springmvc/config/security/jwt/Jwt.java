@@ -2,14 +2,12 @@ package org.example.springmvc.config.security.jwt;
 
 import io.jsonwebtoken.*;
 import lombok.Getter;
-import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.example.springmvc.model.User;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.time.Instant;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
@@ -33,12 +31,14 @@ public class Jwt {
                 .setSubject(user.getUsername())
                 .setExpiration(date)
                 .signWith(SignatureAlgorithm.HS512, jwtSecret)
-                .claim("roles", user.getRole())
+                .claim("role", user.getRole())
                 .compact();
     }
 
     public String generateRefreshToken(String login) {
-        Date date = Date.from(LocalDate.now().plusDays(15).atStartOfDay(ZoneId.systemDefault()).toInstant());
+        LocalDateTime now = LocalDateTime.now();
+        Instant refreshExpirationInstant = now.plusDays(30).atZone(ZoneId.systemDefault()).toInstant();
+        Date date = Date.from(refreshExpirationInstant);
         return Jwts.builder()
                 .setSubject(login)
                 .setExpiration(date)

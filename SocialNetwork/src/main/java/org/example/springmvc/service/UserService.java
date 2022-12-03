@@ -38,14 +38,9 @@ public class UserService {
         log.info("Getting user from repository. User [{}]", username);
         User user = userJpaDao.findUserByUsername(username).orElse(null);
         if (user != null) {
-            if (!passwordConfig.passwordEncoder().matches(password, user.getPassword())) {
-                throw new InvalidCredentialException();
-            } else {
-                return true;
-            }
+            return passwordConfig.passwordEncoder().matches(password, user.getPassword());
         } else {
-            log.warn("User provides invalid data. Username [{}]", username);
-            throw new InvalidCredentialException();
+            return false;
         }
     }
 

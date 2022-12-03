@@ -2,7 +2,6 @@ package org.example.springmvc.controllers.authentication;
 
 import lombok.RequiredArgsConstructor;
 import org.example.springmvc.dto.UserDto;
-import org.example.springmvc.exceptions.InvalidUserDataException;
 import org.example.springmvc.facades.AuthenticationFacade;
 import org.example.springmvc.model.User;
 import org.example.springmvc.service.UserService;
@@ -11,7 +10,6 @@ import org.example.springmvc.validations.flags.Unique;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;

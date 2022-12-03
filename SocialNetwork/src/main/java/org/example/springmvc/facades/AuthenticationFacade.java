@@ -21,8 +21,8 @@ public class AuthenticationFacade {
             log.info("User logged in successfully: username: [{}]", username);
             return true;
         } else {
-            log.info("User failed to login: username: [{}]", username);
-            return false;
+            log.warn("User provides invalid data. Username [{}]", username);
+            throw new InvalidCredentialException();
         }
     }
 

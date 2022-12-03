@@ -5,7 +5,6 @@ import lombok.extern.log4j.Log4j2;
 import org.example.springmvc.dto.FriendDto;
 import org.example.springmvc.dto.RemoveFriendRequestDto;
 import org.example.springmvc.facades.FriendFacade;
-import org.example.springmvc.model.User;
 import org.example.springmvc.session.AuthContext;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
