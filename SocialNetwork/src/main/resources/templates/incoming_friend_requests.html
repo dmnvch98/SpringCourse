@@ -15,13 +15,13 @@
             <tr th:each="ifr: ${incomingFriendRequests}">
                 <td th:text="${ifr.getRequestUser().getUsername()}"></td>
                 <td>
-                    <form th:action="@{/friends}" method="post">
+                    <form th:action="@{/view/friends}" method="post">
                         <input type="hidden" th:value="${ifr.getId()}" name="friendRequestId"/>
                         <input type="submit" value="Accept">
                     </form>
                 </td>
                 <td>
-                    <form th:action="@{/friend_request/remove}" method="post">
+                    <form th:action="@{/view/friend_request/remove}" method="post">
                         <input type="hidden" th:value="${ifr.getId()}" name="friendRequestId"/>
                         <input type="submit" value="Decline">
                     </form>

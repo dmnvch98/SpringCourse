@@ -14,3 +14,5 @@ spring:
     suffix: .html
   hasher:
     salt: SECRET
+  jwt:
+    secret: SECRET

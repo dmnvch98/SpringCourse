@@ -22,7 +22,7 @@
         </tbody>
     </table>
     <div class="input-group mb-3 position-absolute bottom-0 start-0">
-        <form style="display: inline-flex" th:action="@{/message}" method="post">
+        <form style="display: inline-flex" th:action="@{/view/message}" method="post">
             <input type="hidden" th:value="${recipientUser.getUsername()}" name="friendUsername" />
             <input type="text" class="form-control" placeholder="message"
                    aria-describedby="button-addon2" style="width: 500px" name="messageText">

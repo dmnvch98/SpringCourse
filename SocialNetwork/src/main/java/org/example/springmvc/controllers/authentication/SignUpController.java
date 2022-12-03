@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/signup")
+@RequestMapping("/view/signup")
 @RequiredArgsConstructor
 public class SignUpController {
     private final AuthenticationFacade authorizationFacade;
@@ -28,13 +28,17 @@ public class SignUpController {
     private final UserService userService;
     @GetMapping
     public String getSignUpPage(Model model) {
-        model.addAttribute("userDto", new UserDto());
+        UserDto userDto = new UserDto();
+        userDto.setRole("USER");
+        model.addAttribute("userDto", userDto);
         return "sign_up";
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     protected String signUp(@Validated(Unique.class) final UserDto userDto) {
-            if (authorizationFacade.signUp(userDto.getUsername(), userDto.getPassword())) {
+            if (authorizationFacade.signUp(userDto.getUsername().trim(),
+                    userDto.getPassword(),
+                    userDto.getRole())) {
                 User currentUser = userService.getUser(userDto.getUsername());
                 authContext.setUser(currentUser);
                 authContext.setCurrentUsername(currentUser.getUsername());

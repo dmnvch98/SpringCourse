@@ -49,7 +49,11 @@ public class UserController {
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<UserRestDto> createUser(@Validated(Unique.class) @RequestBody final UserDto userDto) {
-            if (authenticationFacade.signUp(userDto.getUsername(), userDto.getPassword())) {
+            if (authenticationFacade.signUp(
+                    userDto.getUsername(),
+                    userDto.getPassword(),
+                    userDto.getRole().toUpperCase()
+            )) {
                 User currentUser = userService.getUser(userDto.getUsername());
                 return ResponseEntity.ok(userConverter.userToUserRestDto(currentUser));
             } else {

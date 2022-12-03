@@ -3,9 +3,9 @@ package org.example.springmvc.service;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.example.springmvc.config.security.PasswordConfig;
 import org.example.springmvc.exceptions.InvalidCredentialException;
 import org.example.springmvc.model.User;
-import org.example.springmvc.passwordhashing.PasswordHasher;
 import org.example.springmvc.repository.UserRepository;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -21,7 +21,8 @@ import java.util.List;
 @Slf4j
 public class UserService {
     private final UserRepository userJpaDao;
-    private final PasswordHasher passwordHasher;
+
+    private final PasswordConfig passwordConfig;
 
     public boolean isExist(final String username) {
         log.info("Checking if user exists. Username [{}]", username);
@@ -37,7 +38,7 @@ public class UserService {
         log.info("Getting user from repository. User [{}]", username);
         User user = userJpaDao.findUserByUsername(username).orElse(null);
         if (user != null) {
-            if (!passwordHasher.verifyPassword(password, user.getPassword())) {
+            if (!passwordConfig.passwordEncoder().matches(password, user.getPassword())) {
                 throw new InvalidCredentialException();
             } else {
                 return true;
@@ -48,9 +49,9 @@ public class UserService {
         }
     }
 
-    public void save(final String username, final String password,
-                     final String role, final Date createdAt) throws IOException {
-        String hashedPassword = passwordHasher.hashPassword(password);
+    public void save(final String username, final String password, String role,
+                     final Date createdAt) throws IOException {
+        String hashedPassword = passwordConfig.passwordEncoder().encode(password);
         User user = new User(username, hashedPassword, role, createdAt);
         userJpaDao.save(user);
         log.info("Saving user to the db. User [{}]", username);

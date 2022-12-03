@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/message")
+@RequestMapping("/view/message")
 public class MessageController {
     private final MessageFacade messageFacade;
     private final AuthContext authContext;

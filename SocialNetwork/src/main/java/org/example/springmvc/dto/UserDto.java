@@ -25,4 +25,7 @@ public class UserDto {
     @Length(groups = {Unique.class, Credentials.class},
             min = 5, max = 15, message = "Password should be between 5 and 15 characters")
     private String password;
+    @NotEmpty(groups = {Unique.class, Credentials.class})
+    @NotNull(groups = {Unique.class, Credentials.class})
+    private String role;
 }

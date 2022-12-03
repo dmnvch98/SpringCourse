@@ -19,7 +19,7 @@ import org.springframework.web.servlet.view.RedirectView;
 @Controller
 @RequiredArgsConstructor
 @Log4j2
-@RequestMapping("/friends")
+@RequestMapping("/view/friends")
 public class FriendController {
     private final FriendFacade friendFacade;
     private final AuthContext authContext;
@@ -27,7 +27,7 @@ public class FriendController {
     @PostMapping(consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     public RedirectView addFriend(final RemoveFriendRequestDto dto) {
         friendFacade.addFriend(dto.getFriendRequestId());
-        RedirectView redirectView = new RedirectView("/friend_request/incoming");
+        RedirectView redirectView = new RedirectView("/view/friend_request/incoming");
         redirectView.setContextRelative(true);
         return redirectView;
     }
@@ -35,7 +35,7 @@ public class FriendController {
     @PostMapping(consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE, path = "/remove")
     public String removeFriend(final FriendDto dto) {
         friendFacade.removeFriend(authContext.getUser(), dto.getFriendUsername());
-        return "redirect:/friends";
+        return "redirect:/view/friends";
     }
 
     @GetMapping()

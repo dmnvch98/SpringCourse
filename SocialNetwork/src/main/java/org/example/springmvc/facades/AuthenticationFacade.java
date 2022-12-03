@@ -26,10 +26,10 @@ public class AuthenticationFacade {
         }
     }
 
-    public boolean signUp(final String username, final String password) {
+    public boolean signUp(final String username, final String password, final String role) {
         log.info("Attempt to signup with username: [{}]", username);
         try {
-            userService.save(username, password, "USER", new Date());
+            userService.save(username, password, role, new Date());
             log.info("User signed up successfully: username [{}]", username);
             return true;
         } catch (IOException e) {

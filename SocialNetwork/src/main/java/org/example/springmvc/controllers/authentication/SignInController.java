@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 
 @Controller
-@RequestMapping("/signin")
+@RequestMapping("/view/signin")
 @RequiredArgsConstructor
 public class SignInController {
     private final AuthenticationFacade authorizationFacade;
@@ -30,7 +30,9 @@ public class SignInController {
 
     @GetMapping
     public String getSignInPage(Model model) {
-        model.addAttribute("userDto", new UserDto());
+        UserDto userDto = new UserDto();
+        userDto.setRole("USER");
+        model.addAttribute("userDto", userDto);
         return "sign_in";
     }
 
