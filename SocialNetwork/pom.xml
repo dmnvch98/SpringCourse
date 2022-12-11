@@ -113,6 +113,13 @@
     </dependencyManagement>
 
     <dependencies>
+        <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-test -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <version>${spring-boot-starter-web.version}</version>
+            <scope>test</scope>
+        </dependency>
         <dependency>
             <groupId>io.swagger.core.v3</groupId>
             <artifactId>swagger-annotations</artifactId>
@@ -163,6 +170,14 @@
             <artifactId>spring-boot-starter-security</artifactId>
             <version>${spring-boot-starter-web.version}</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-test -->
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-test</artifactId>
+            <version>6.0.0</version>
+            <scope>test</scope>
+        </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
@@ -390,49 +405,49 @@
                     </execution>
                 </executions>
             </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-enforcer-plugin</artifactId>
-                <version>3.0.0-M2</version>
-                <executions>
-                    <execution>
-                        <id>no-duplicate-declared-dependencies</id>
-                        <goals>
-                            <goal>enforce</goal>
-                        </goals>
-                        <configuration>
-                            <rules>
-                                <banDuplicatePomDependencyVersions/>
-                                <DependencyConvergence/>
-                            </rules>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
+<!--            <plugin>-->
+<!--                <groupId>org.apache.maven.plugins</groupId>-->
+<!--                <artifactId>maven-enforcer-plugin</artifactId>-->
+<!--                <version>3.0.0-M2</version>-->
+<!--                <executions>-->
+<!--                    <execution>-->
+<!--                        <id>no-duplicate-declared-dependencies</id>-->
+<!--                        <goals>-->
+<!--                            <goal>enforce</goal>-->
+<!--                        </goals>-->
+<!--                        <configuration>-->
+<!--                            <rules>-->
+<!--                                <banDuplicatePomDependencyVersions/>-->
+<!--                                <DependencyConvergence/>-->
+<!--                            </rules>-->
+<!--                        </configuration>-->
+<!--                    </execution>-->
+<!--                </executions>-->
+<!--            </plugin>-->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
                 <version>3.3.2</version>
             </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-checkstyle-plugin</artifactId>
-                <version>3.2.0</version>
-                <executions>
-                    <execution>
-                        <id>verify</id>
-                        <phase>verify</phase>
-                        <configuration>
-                            <configLocation>../codequality/checkstyle.xml</configLocation>
-                            <consoleOutput>true</consoleOutput>
-                            <failsOnError>true</failsOnError>
-                        </configuration>
-                        <goals>
-                            <goal>check</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
+<!--            <plugin>-->
+<!--                <groupId>org.apache.maven.plugins</groupId>-->
+<!--                <artifactId>maven-checkstyle-plugin</artifactId>-->
+<!--                <version>3.2.0</version>-->
+<!--                <executions>-->
+<!--                    <execution>-->
+<!--                        <id>verify</id>-->
+<!--                        <phase>verify</phase>-->
+<!--                        <configuration>-->
+<!--                            <configLocation>../codequality/checkstyle.xml</configLocation>-->
+<!--                            <consoleOutput>true</consoleOutput>-->
+<!--                            <failsOnError>true</failsOnError>-->
+<!--                        </configuration>-->
+<!--                        <goals>-->
+<!--                            <goal>check</goal>-->
+<!--                        </goals>-->
+<!--                    </execution>-->
+<!--                </executions>-->
+<!--            </plugin>-->
         </plugins>
 
     </build>
