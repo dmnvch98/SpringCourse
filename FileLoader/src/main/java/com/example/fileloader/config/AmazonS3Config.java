@@ -27,8 +27,4 @@ public class AmazonS3Config {
         return builder.build();
     }
 
-    @Bean
-    public StorageService storageService() {
-        return new StorageServiceImp();
-    }
 }
