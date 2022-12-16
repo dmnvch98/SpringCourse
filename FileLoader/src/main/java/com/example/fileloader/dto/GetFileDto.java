@@ -8,5 +8,4 @@ import lombok.RequiredArgsConstructor;
 public class GetFileDto {
     String bucketName;
     String fileName;
-    String pathToSaveFile;
 }
