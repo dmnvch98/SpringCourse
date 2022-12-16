@@ -1,6 +1,7 @@
 package org.example.springmvc.config;
 
 import java.util.Properties;
+import javax.persistence.spi.PersistenceProvider;
 import javax.sql.DataSource;
 
 import org.hibernate.jpa.HibernatePersistenceProvider;
@@ -44,7 +45,7 @@ public class HibernateConfig {
 
         LocalContainerEntityManagerFactoryBean entityManagerFactoryBean = new LocalContainerEntityManagerFactoryBean();
         entityManagerFactoryBean.setDataSource(dataSource());
-        entityManagerFactoryBean.setPersistenceProviderClass(HibernatePersistenceProvider.class);
+        entityManagerFactoryBean.setPersistenceProviderClass(PersistenceProvider.class);
         entityManagerFactoryBean.setPackagesToScan("org.example.springmvc.model");
         entityManagerFactoryBean.setJpaProperties(hibernateProperties());
 
