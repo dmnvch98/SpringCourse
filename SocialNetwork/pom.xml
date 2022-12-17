@@ -25,6 +25,8 @@
         <org.mapstruct.version>1.4.2.Final</org.mapstruct.version>
         <lombok.version>1.18.24</lombok.version>
         <com.fasterxml.jackson.core>2.14.1</com.fasterxml.jackson.core>
+        <feign.httpclient>11.8</feign.httpclient>
+        <spring.cloud.starter.openfeign>3.1.4</spring.cloud.starter.openfeign>
     </properties>
 
     <dependencyManagement>
@@ -113,6 +115,16 @@
     </dependencyManagement>
 
     <dependencies>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-openfeign</artifactId>
+            <version>${spring.cloud.starter.openfeign}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.github.openfeign</groupId>
+            <artifactId>feign-httpclient</artifactId>
+            <version>${feign.httpclient}</version>
+        </dependency>
         <dependency>
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt</artifactId>
