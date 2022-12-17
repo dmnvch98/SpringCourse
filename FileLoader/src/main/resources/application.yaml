@@ -1,0 +1,7 @@
+server:
+  port: 8081
+localstack:
+  aws_region: us-east-1
+  s3_endpoint: http://localhost:4566/
+  login: foo
+  password: bar
