@@ -1,5 +1,6 @@
 package com.example.messageservice.services;
 
+import com.example.messageservice.dto.MessageDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -11,8 +12,10 @@ import java.util.List;
 public class MessageRestService {
     private final List<String> messages = new ArrayList<>();
 
-    public String getMessage(final String  message) {
+    public MessageDto getMessage(final String message) {
         messages.add(message);
-        return message;
+        MessageDto messageDto = new MessageDto();
+        messageDto.setText(message);
+        return messageDto;
     }
 }

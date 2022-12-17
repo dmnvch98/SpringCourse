@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 public class MessageRestService {
     private final MessageClient messageClient;
 
-    public MessageDto getMessage(final MessageDto message) {
+    public MessageDto getMessage(final String message) {
         return messageClient.getMessage(message);
     }
 }

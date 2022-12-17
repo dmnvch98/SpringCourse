@@ -5,8 +5,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.jackson.Jacksonized;
 
 @Data
-@Jacksonized
 @RequiredArgsConstructor
+@Jacksonized
 public class MessageDto {
     String text;
 }

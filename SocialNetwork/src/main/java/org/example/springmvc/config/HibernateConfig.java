@@ -27,7 +27,7 @@ public class HibernateConfig {
     @Value("${password}")
     private String PASSWORD;
 
-    @Value("${url}")
+    @Value("${spring.datasource.url}")
     private String URL;
 
     @Value("${spring.datasource.username}")
@@ -38,6 +38,9 @@ public class HibernateConfig {
 
     @Value("${ddl-auto}")
     private String HBM2DDL_AUTO;
+
+//    @Value("${dialect}")
+//    private String DIALECT;
 
     @Bean
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
@@ -64,6 +67,7 @@ public class HibernateConfig {
         Properties properties = new Properties();
         properties.put("hibernate.show_sql", SHOW_SQL);
         properties.put("hibernate.hbm2ddl.auto", HBM2DDL_AUTO);
+        //properties.put("hibernate.dialect", DIALECT);
         return properties;
     }
 

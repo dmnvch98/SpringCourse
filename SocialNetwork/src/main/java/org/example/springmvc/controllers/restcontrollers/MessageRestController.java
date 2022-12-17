@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class MessageRestController {
     private final MessageRestService messageRestService;
     @GetMapping("/{message}")
-    public ResponseEntity<?> getMessage(@PathVariable final MessageDto message) {
+    public ResponseEntity<MessageDto> getMessage(@PathVariable final String message) {
         return ResponseEntity.ok(messageRestService.getMessage(message));
     }
 }

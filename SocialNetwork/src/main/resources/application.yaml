@@ -24,12 +24,12 @@ spring:
 
   services:
     message:
-      url: 'http://localhost:9091'
-  flyway:
+      url: http://localhost:9090
+#  flyway:
 #    baseline-on-migrate: true
-    user: root
-    password: root
-    url: jdbc:postgresql://localhost:35432/tms
-    connect-retries: 3
-    mixed: true
-    locations: classpath:db/migration
+#    user: root
+#    password: root
+#    url: jdbc:postgresql://localhost:35432/tms
+#    connect-retries: 3
+#    mixed: true
+#    locations: classpath:db/migration
