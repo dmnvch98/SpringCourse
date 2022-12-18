@@ -9,9 +9,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import java.util.List;
 
-@FeignClient(name = "domain", url = "${url}/api/v1/messages/")
+@FeignClient(name = "domain", url = "${spring.services.message.url}/api/v1/messages/")
 public interface MessageClient {
     @RequestMapping(method = RequestMethod.GET, value = "/{friendsId}")
     UserMessagesDto getUserMessages(final @PathVariable(name = "friendsId") long friendsId);

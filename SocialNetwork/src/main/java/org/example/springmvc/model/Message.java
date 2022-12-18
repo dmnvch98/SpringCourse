@@ -1,6 +1,7 @@
 package org.example.springmvc.model;
 
 import lombok.Data;
+import lombok.extern.jackson.Jacksonized;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -9,6 +10,7 @@ import java.util.Date;
 @Entity
 @Table(name = "messages")
 @Data
+@Jacksonized
 public class Message {
     @Id
     @Column(name = "id")

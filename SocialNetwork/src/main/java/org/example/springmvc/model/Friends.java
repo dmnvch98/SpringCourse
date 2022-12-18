@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import lombok.extern.jackson.Jacksonized;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -14,6 +15,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @ToString
+@Jacksonized
 public class Friends {
     @Id
     @Column(name = "id")
@@ -27,6 +29,7 @@ public class Friends {
     @JoinColumn(name = "second_user")
     private User secondUser;
     @OneToMany(mappedBy = "friends", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     private List<Message> friendsMessages;
 
     public Friends(final User firstUser, final User secondUser) {

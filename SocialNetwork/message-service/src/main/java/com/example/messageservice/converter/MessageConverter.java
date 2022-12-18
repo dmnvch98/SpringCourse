@@ -3,7 +3,6 @@ package com.example.messageservice.converter;
 import com.example.messageservice.dto.MsgDto;
 
 import com.example.messageservice.model.Message;
-import com.example.messageservice.services.UserServiceInterface;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 

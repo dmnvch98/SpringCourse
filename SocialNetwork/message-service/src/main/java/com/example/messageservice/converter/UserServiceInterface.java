@@ -1,4 +1,4 @@
-package com.example.messageservice.services;
+package com.example.messageservice.converter;
 
 import com.example.messageservice.model.User;
 

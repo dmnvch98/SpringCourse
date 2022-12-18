@@ -16,7 +16,7 @@ public class MessageRestService {
     private final MessageConverter messageConverter;
 
     public UserMessagesDto getUserMessages(final long friendsId) {
-        List<Message> userMessages = messageRepository.findMessagesByFriends_Id(friendsId).orElse(null);
+        List<Message> userMessages = messageRepository.findMessagesByFriends_IdOrderById(friendsId).orElse(null);
         UserMessagesDto userMessagesDto = new UserMessagesDto();
         if (userMessages != null) {
             userMessagesDto.setUserMessages(
