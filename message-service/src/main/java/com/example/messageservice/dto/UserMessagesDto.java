@@ -10,5 +10,5 @@ import java.util.List;
 @RequiredArgsConstructor
 @Jacksonized
 public class UserMessagesDto {
-    List<MsgDto> userMessages;
+    List<MessageDto> userMessages;
 }

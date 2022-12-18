@@ -44,8 +44,7 @@ public class MessageRestController {
         String currentPrincipalName = authentication.getName();
         User user = userService.getUser(currentPrincipalName);
         return ResponseEntity.ok(messageRestService.
-                sendMessage
-                        (messageFacade.
+                sendMessage(messageFacade.
                                 buildMessage(sendMessageDto, user)
                         )
         );

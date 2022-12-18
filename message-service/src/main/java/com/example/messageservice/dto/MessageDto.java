@@ -9,7 +9,7 @@ import lombok.extern.jackson.Jacksonized;
 @Data
 @RequiredArgsConstructor
 @Jacksonized
-public class MsgDto {
+public class MessageDto {
     private long senderId;
     private long recipientId;
     private Date messageDate;
