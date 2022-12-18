@@ -12,9 +12,6 @@ import java.util.List;
 
 @FeignClient(name = "domain", url = "${url}/api/v1/messages/")
 public interface MessageClient {
-//    @RequestMapping(method = RequestMethod.GET, value = "/{message}")
-//    MessageDto getMessage(@PathVariable(name = "message") String message);
-
     @RequestMapping(method = RequestMethod.GET, value = "/{friendsId}")
     UserMessagesDto getUserMessages(@PathVariable(name = "friendsId") long friendsId);
 }

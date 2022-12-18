@@ -11,8 +11,8 @@ import java.util.Date;
 @RequiredArgsConstructor
 @Jacksonized
 public class MsgDto {
-    private User sender;
-    private User recipient;
+    private long senderId;
+    private long recipientId;
     private Date messageDate;
     private String messageText;
 }
