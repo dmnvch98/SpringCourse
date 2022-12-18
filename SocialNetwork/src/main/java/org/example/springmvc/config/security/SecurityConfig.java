@@ -29,7 +29,7 @@ public class SecurityConfig {
                         .antMatchers("/view/**").permitAll()
                         .antMatchers("/api/v1/auth/**").permitAll()
                         .antMatchers("/api/v1/users/**").hasAnyRole("ADMIN")
-                        .antMatchers("/api/v1/messages/**").permitAll()
+                        .antMatchers("/api/v1/messages/**").hasAnyRole("USER", "ADMIN")
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
