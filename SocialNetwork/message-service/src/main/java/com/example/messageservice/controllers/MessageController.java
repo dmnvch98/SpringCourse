@@ -1,9 +1,10 @@
 package com.example.messageservice.controllers;
 
-import com.example.messageservice.dto.MessageDto;
 import com.example.messageservice.dto.UserMessagesDto;
+import com.example.messageservice.model.Message;
 import com.example.messageservice.services.MessageRestService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -11,12 +12,13 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class MessageController {
     private final MessageRestService messageRestService;
-//    @RequestMapping(method = RequestMethod.GET, value = "/{message}")
-//    MessageDto getMessage(@PathVariable(name = "message") String message) {
-//        return messageRestService.getMessage(message);
-//    }
     @RequestMapping(method = RequestMethod.GET, value = "/{friendsId}")
     UserMessagesDto getUserMessages(@PathVariable(name = "friendsId") long friendsId) {
         return messageRestService.getUserMessages(friendsId);
+    }
+
+    @RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+    UserMessagesDto sendMessage(@RequestBody final Message message) {
+        return messageRestService.saveMessage(message);
     }
 }

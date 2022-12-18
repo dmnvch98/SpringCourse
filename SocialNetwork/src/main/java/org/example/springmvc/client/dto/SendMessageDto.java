@@ -1,4 +1,4 @@
-package com.example.messageservice.dto;
+package org.example.springmvc.client.dto;
 
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
@@ -7,6 +7,7 @@ import lombok.extern.jackson.Jacksonized;
 @Data
 @RequiredArgsConstructor
 @Jacksonized
-public class MessageDto {
-    String text;
+public class SendMessageDto {
+    private long recipientId;
+    private String messageText;
 }

@@ -1,4 +1,4 @@
-package com.example.messageservice.repository;
+package com.example.messageservice.services;
 
 import com.example.messageservice.model.User;
 

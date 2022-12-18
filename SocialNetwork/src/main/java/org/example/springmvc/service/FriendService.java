@@ -23,4 +23,8 @@ public class FriendService {
     public Friends getFriends(final User firstUser, final User secondUser) {
         return friendsJpa.getFriends(firstUser, secondUser).orElse(null);
     }
+
+    public Friends getFriends(final long id) {
+        return friendsJpa.getFriendsById(id);
+    }
 }
