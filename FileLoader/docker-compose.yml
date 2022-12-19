@@ -1,0 +1,8 @@
+version: '2.2'
+services:
+  localstack:
+    container_name: "LocalStack-Demo"
+    image: localstack/localstack
+    network_mode: bridge
+    ports:
+      - "4566:4566" # S3 Port
