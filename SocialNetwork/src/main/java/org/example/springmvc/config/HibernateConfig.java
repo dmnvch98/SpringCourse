@@ -45,7 +45,7 @@ public class HibernateConfig {
 
         LocalContainerEntityManagerFactoryBean entityManagerFactoryBean = new LocalContainerEntityManagerFactoryBean();
         entityManagerFactoryBean.setDataSource(dataSource());
-        entityManagerFactoryBean.setPersistenceProviderClass(PersistenceProvider.class);
+        entityManagerFactoryBean.setPersistenceProviderClass(HibernatePersistenceProvider.class);
         entityManagerFactoryBean.setPackagesToScan("org.example.springmvc.model");
         entityManagerFactoryBean.setJpaProperties(hibernateProperties());
 
