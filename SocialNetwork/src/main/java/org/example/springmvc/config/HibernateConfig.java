@@ -1,6 +1,7 @@
 package org.example.springmvc.config;
 
 import java.util.Properties;
+import javax.persistence.spi.PersistenceProvider;
 import javax.sql.DataSource;
 
 import org.hibernate.jpa.HibernatePersistenceProvider;

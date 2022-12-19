@@ -1,6 +1,7 @@
 package org.example.springmvc.controllers.authentication;
 
 
+import io.swagger.v3.oas.annotations.Hidden;
 import lombok.RequiredArgsConstructor;
 import org.example.springmvc.config.security.jwt.Jwt;
 import org.example.springmvc.dto.JwtResponse;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1/auth")
 @RestController
 @RequiredArgsConstructor
+@Hidden
 public class AuthController {
 
     private final UserService userService;
