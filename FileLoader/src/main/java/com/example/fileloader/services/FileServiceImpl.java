@@ -2,12 +2,9 @@ package com.example.fileloader.services;
 
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.*;
-import com.example.fileloader.interfaces.FileInterface;
-import com.example.fileloader.utils.FilesUtils;
+import com.example.fileloader.interfaces.FileService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
@@ -18,16 +15,21 @@ import static org.apache.commons.io.FileUtils.copyInputStreamToFile;
 
 @RequiredArgsConstructor
 @Service
-public class FileService implements FileInterface {
+public class FileServiceImpl implements FileService {
     private final AmazonS3 amazonS3;
 
+    public static final int CREATED = 201;
+    public static final int NO_CONTENT = 204;
+    public static final int NOT_FOUND = 404;
+    public static final int INTERNAL_ERROR = 500;
+
     @Override
-    public void uploadFile(MultipartFile file, String bucketName) throws IOException {
+    public void uploadFile(String fileName, InputStream inputStream, String bucketName) {
         amazonS3.putObject(
                 bucketName,
-                file.getOriginalFilename(),
-                file.getInputStream(),
-                FilesUtils.getObjectMetaData(file));
+                fileName,
+                inputStream,
+                new ObjectMetadata());
     }
 
     @Override
@@ -40,22 +42,23 @@ public class FileService implements FileInterface {
     }
 
     @Override
-    public ResponseEntity<?> getFile(String bucketName, String fileName) {
+    public int getFile(String bucketName, String fileName) {
         try {
             S3Object obj = amazonS3.getObject(new GetObjectRequest(bucketName, fileName));
             try (InputStream stream = obj.getObjectContent()) {
                 File file = new File(fileName);
                 if (file.createNewFile()) {
                     copyInputStreamToFile(stream, file);
-                    return ResponseEntity.created(file.toURI()).build();
+                    deleteFile(bucketName, fileName);
+                    return CREATED;
                 } else {
-                    return ResponseEntity.status(204).body("File already exists on your computer");
+                    return NO_CONTENT;
                 }
             } catch (IOException exception) {
-                return ResponseEntity.internalServerError().body(exception.getMessage());
+                return INTERNAL_ERROR;
             }
         } catch (AmazonS3Exception exception) {
-            return ResponseEntity.notFound().build();
+            return NOT_FOUND;
         }
     }
 

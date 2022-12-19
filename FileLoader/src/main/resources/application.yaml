@@ -1,7 +1,11 @@
 server:
   port: 8081
-localstack:
-  aws_region: us-east-1
+servlet:
+  multipart:
+    max-file-size: 15MB
+    max-request-size: 15MB
+aws:
+  region: us-east-1
   s3_endpoint: http://localhost:4566/
-  login: foo
-  password: bar
+  access_key: foo
+  secret_key: bar

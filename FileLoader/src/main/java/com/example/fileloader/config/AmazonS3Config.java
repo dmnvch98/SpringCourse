@@ -11,17 +11,17 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class AmazonS3Config {
-    @Value("${localstack.aws_region}")
+    @Value("${aws.region}")
     private String AWS_REGION;
-    @Value("${localstack.s3_endpoint}")
+    @Value("${aws.s3_endpoint}")
     private String S3_ENDPOINT;
-    @Value("${localstack.login}")
+    @Value("${aws.access_key}")
     private String login;
-    @Value("${localstack.password}")
+    @Value("${aws.secret_key}")
     private String password;
 
     @Bean
-    public AmazonS3 prepareS3() {
+    public AmazonS3 amazonS3() {
         BasicAWSCredentials credentials = new BasicAWSCredentials(login, password);
 
         AwsClientBuilder.EndpointConfiguration config =

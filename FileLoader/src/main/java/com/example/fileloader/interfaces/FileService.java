@@ -4,11 +4,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 
-public interface FileInterface {
-    void uploadFile(MultipartFile file, String bucketName) throws IOException;
+public interface FileService {
+    void uploadFile(String fileName, InputStream inputStream, String bucketName) throws IOException;
     List<String> getFilesList(String bucketName);
-    ResponseEntity<?> getFile(String bucketName, String fileName);
+    int getFile(String bucketName, String fileName);
     void deleteFile(String bucketName, String fileName);
 }

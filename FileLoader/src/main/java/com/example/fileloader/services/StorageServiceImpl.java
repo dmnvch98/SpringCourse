@@ -2,7 +2,7 @@ package com.example.fileloader.services;
 
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.Bucket;
-import com.example.fileloader.interfaces.BucketInterface;
+import com.example.fileloader.interfaces.StorageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -10,22 +10,22 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @Service
-public class BucketService implements BucketInterface {
+public class StorageServiceImpl implements StorageService {
 
     private final AmazonS3 amazonS3;
 
     @Override
-    public void createBucket(String value) {
+    public void createStorage(String value) {
         amazonS3.createBucket(value);
     }
 
     @Override
-    public List<Bucket> getBuckets() {
+    public List<Bucket> getStorage() {
         return amazonS3.listBuckets();
     }
 
     @Override
-    public void deleteBucket(String value) {
+    public void deleteStorage(String value) {
         amazonS3.deleteBucket(value);
     }
 }
