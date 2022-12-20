@@ -9,10 +9,10 @@ services:
       - POSTGRES_DB=tms
     ports:
       - "35432:5432"
-  message-service:
-    container_name: "message-service"
-    image: message-service:latest
-    ports:
-      - "9090:9090"
-    depends_on:
-    - db
+#  message-service:
+#    container_name: "message-service"
+#    image: message-service:latest
+#    ports:
+#      - "9090:9090"
+#    depends_on:
+#    - db

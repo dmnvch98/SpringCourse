@@ -101,33 +101,33 @@
                     </compilerArgs>
                 </configuration>
             </plugin>
-            <plugin>
-                <groupId>com.google.cloud.tools</groupId>
-                <artifactId>jib-maven-plugin</artifactId>
-                <version>${jib.maven.plugin.version}</version>
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>dockerBuild</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <from>
-                        <image>openjdk:17-bullseye</image>
-                    </from>
-                    <to>
-                        <image>message-service</image>
-                        <tags>
-                            <tag>latest</tag>
-                        </tags>
-                    </to>
-                    <container>
-                        <creationTime>USE_CURRENT_TIMESTAMP</creationTime>
-                    </container>
-                </configuration>
-            </plugin>
+<!--            <plugin>-->
+<!--                <groupId>com.google.cloud.tools</groupId>-->
+<!--                <artifactId>jib-maven-plugin</artifactId>-->
+<!--                <version>${jib.maven.plugin.version}</version>-->
+<!--                <executions>-->
+<!--                    <execution>-->
+<!--                        <phase>package</phase>-->
+<!--                        <goals>-->
+<!--                            <goal>dockerBuild</goal>-->
+<!--                        </goals>-->
+<!--                    </execution>-->
+<!--                </executions>-->
+<!--                <configuration>-->
+<!--                    <from>-->
+<!--                        <image>openjdk:17-bullseye</image>-->
+<!--                    </from>-->
+<!--                    <to>-->
+<!--                        <image>message-service</image>-->
+<!--                        <tags>-->
+<!--                            <tag>latest</tag>-->
+<!--                        </tags>-->
+<!--                    </to>-->
+<!--                    <container>-->
+<!--                        <creationTime>USE_CURRENT_TIMESTAMP</creationTime>-->
+<!--                    </container>-->
+<!--                </configuration>-->
+<!--            </plugin>-->
         </plugins>
     </build>
 

@@ -11,6 +11,8 @@ import org.example.springmvc.model.User;
 import org.example.springmvc.service.FriendService;
 import org.example.springmvc.service.MessageService;
 import org.example.springmvc.service.UserService;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
@@ -39,18 +41,24 @@ public class MessageFacade {
         log.info("Message was sent. Sender=[{}], Recipient=[{}]", sender.getUsername(), recipient.getUsername());
     }
 
-    public Message buildMessage(final SendMessageDto dto, final User currentUser) {
+    public Message buildMessage(final SendMessageDto dto) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
+        User user = userService.getUser(currentPrincipalName);
         Message message = messageConverter.dtoToMessage(dto);
-        message.setSender(currentUser);
+        message.setSender(user);
         message.setMessageDate(new Date());
-        Friends friends = friendsService.getFriends(currentUser, message.getRecipient());
+        Friends friends = friendsService.getFriends(user, message.getRecipient());
         message.setFriends(friends);
         return message;
     }
 
-    public long getFriendsId(final String recipientUsername, final User currentUser) {
+    public long getFriendsId(final String recipientUsername) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
+        User user = userService.getUser(currentPrincipalName);
         User recipientUser = userService.getUser(recipientUsername);
-        Friends friends = friendsService.getFriends(currentUser, recipientUser);
+        Friends friends = friendsService.getFriends(user, recipientUser);
         return friends.getId();
     }
 

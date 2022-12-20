@@ -15,7 +15,6 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @ToString
-@Jacksonized
 public class Friends {
     @Id
     @Column(name = "id")

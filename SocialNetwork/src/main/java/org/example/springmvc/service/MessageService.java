@@ -14,13 +14,13 @@ import java.util.List;
 @Slf4j
 public class MessageService {
 
-    private final MessageRepository messageJpa;
+    private final MessageRepository messageRepository;
 
     public void saveMessage(final Message message) {
-        messageJpa.save(message);
+        messageRepository.save(message);
     }
 
     public List<Message> getUserMessagesByFriends(Friends friends) {
-        return messageJpa.findMessagesByFriends(friends).orElse(null);
+        return messageRepository.findMessagesByFriends(friends).orElse(null);
     }
 }
