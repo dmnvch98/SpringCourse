@@ -9,18 +9,22 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 @Service
 public class FriendService {
-    private final FriendsRepository friendsJpa;
+    private final FriendsRepository friendsRepository;
 
     public void addFriend(final User firstUser, final User secondUser) {
         Friends friends = new Friends(firstUser, secondUser);
-        friendsJpa.save(friends);
+        friendsRepository.save(friends);
     }
 
     public void removeFriend(final Friends friends) {
-        friendsJpa.delete(friends);
+        friendsRepository.delete(friends);
     }
 
     public Friends getFriends(final User firstUser, final User secondUser) {
-        return friendsJpa.getFriends(firstUser, secondUser).orElse(null);
+        return friendsRepository.getFriends(firstUser, secondUser).orElse(null);
+    }
+
+    public Friends getFriends(final long id) {
+        return friendsRepository.getFriendsById(id);
     }
 }

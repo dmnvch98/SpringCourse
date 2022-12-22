@@ -1,7 +1,10 @@
 package org.example.springmvc.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
+import lombok.extern.jackson.Jacksonized;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -11,6 +14,7 @@ import java.util.List;
 @Table(name = "friends")
 @Data
 @NoArgsConstructor
+@ToString
 public class Friends {
     @Id
     @Column(name = "id")
@@ -23,8 +27,8 @@ public class Friends {
     @ManyToOne
     @JoinColumn(name = "second_user")
     private User secondUser;
-
     @OneToMany(mappedBy = "friends", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     private List<Message> friendsMessages;
 
     public Friends(final User firstUser, final User secondUser) {

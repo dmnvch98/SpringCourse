@@ -2,6 +2,8 @@ package org.example.springmvc.facades;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.example.springmvc.client.dto.SendMessageDto;
+import org.example.springmvc.converter.MessageConverter;
 import org.example.springmvc.dto.FriendDto;
 import org.example.springmvc.model.Friends;
 import org.example.springmvc.model.Message;
@@ -9,6 +11,8 @@ import org.example.springmvc.model.User;
 import org.example.springmvc.service.FriendService;
 import org.example.springmvc.service.MessageService;
 import org.example.springmvc.service.UserService;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
@@ -19,6 +23,8 @@ import java.util.*;
 public class MessageFacade {
     private final MessageService messageService;
     private final UserService userService;
+
+    private final MessageConverter messageConverter;
 
     private final FriendService friendsService;
 
@@ -33,6 +39,27 @@ public class MessageFacade {
         message.setFriends(friends);
         messageService.saveMessage(message);
         log.info("Message was sent. Sender=[{}], Recipient=[{}]", sender.getUsername(), recipient.getUsername());
+    }
+
+    public Message buildMessage(final SendMessageDto dto) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
+        User user = userService.getUser(currentPrincipalName);
+        Message message = messageConverter.dtoToMessage(dto);
+        message.setSender(user);
+        message.setMessageDate(new Date());
+        Friends friends = friendsService.getFriends(user, message.getRecipient());
+        message.setFriends(friends);
+        return message;
+    }
+
+    public long getFriendsId(final String recipientUsername) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
+        User user = userService.getUser(currentPrincipalName);
+        User recipientUser = userService.getUser(recipientUsername);
+        Friends friends = friendsService.getFriends(user, recipientUser);
+        return friends.getId();
     }
 
     public Map<String, Object> getUserMessages(String recipientUsername, User sender) {

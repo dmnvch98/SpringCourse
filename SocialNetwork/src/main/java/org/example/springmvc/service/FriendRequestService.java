@@ -11,29 +11,29 @@ import java.util.List;
 @RequiredArgsConstructor
 @Service
 public class FriendRequestService {
-    private final FriendRequestRepository friendRequestJpa;
+    private final FriendRequestRepository friendRequestRepository;
 
     public void createRequest(final User requestUser, final User approveUser) {
-        if (!(friendRequestJpa
+        if (!(friendRequestRepository
                 .existsFriendRequestByRequestUserAndApproveUser(requestUser, approveUser))) {
             FriendRequest friendRequest = new FriendRequest(requestUser, approveUser);
-            friendRequestJpa.save(friendRequest);
+            friendRequestRepository.save(friendRequest);
         }
     }
 
     public void deleteRequest(final long id) {
-        friendRequestJpa.deleteFriendRequestById(id);
+        friendRequestRepository.deleteFriendRequestById(id);
     }
 
     public List<FriendRequest> getIncomingFriendRequests(final User approveUser) {
-        return friendRequestJpa.findFriendRequestsByApproveUser(approveUser).orElse(null);
+        return friendRequestRepository.findFriendRequestsByApproveUser(approveUser).orElse(null);
     }
 
     public List<FriendRequest> getOutgoingFriendRequests(final User requestUser) {
-        return friendRequestJpa.findFriendRequestsByRequestUser(requestUser).orElse(null);
+        return friendRequestRepository.findFriendRequestsByRequestUser(requestUser).orElse(null);
     }
 
     public FriendRequest getFriendRequest(final long id) {
-        return friendRequestJpa.getFriendRequestById(id).orElse(null);
+        return friendRequestRepository.getFriendRequestById(id).orElse(null);
     }
 }

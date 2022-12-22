@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.example.springmvc.config.security.PasswordConfig;
+import org.example.springmvc.converter.RecipientIdConverter;
 import org.example.springmvc.exceptions.InvalidCredentialException;
 import org.example.springmvc.model.User;
 import org.example.springmvc.repository.UserRepository;
@@ -19,24 +20,24 @@ import java.util.List;
 @Service
 @Getter
 @Slf4j
-public class UserService {
-    private final UserRepository userJpaDao;
+public class UserService implements RecipientIdConverter {
+    private final UserRepository userRepository;
 
     private final PasswordConfig passwordConfig;
 
     public boolean isExist(final String username) {
         log.info("Checking if user exists. Username [{}]", username);
-        return userJpaDao.existsUserByUsername(username);
+        return userRepository.existsUserByUsername(username);
     }
 
     public boolean isExist(final long id) {
         log.info("Checking if user exists. Id [{}]", id);
-        return userJpaDao.existsUserById(id);
+        return userRepository.existsUserById(id);
     }
 
     public boolean verifyUser(final String username, final String password) throws InvalidCredentialException {
         log.info("Getting user from repository. User [{}]", username);
-        User user = userJpaDao.findUserByUsername(username).orElse(null);
+        User user = userRepository.findUserByUsername(username).orElse(null);
         if (user != null) {
             return passwordConfig.passwordEncoder().matches(password, user.getPassword());
         } else {
@@ -48,7 +49,7 @@ public class UserService {
                      final Date createdAt) throws IOException {
         String hashedPassword = passwordConfig.passwordEncoder().encode(password);
         User user = new User(username, hashedPassword, role, createdAt);
-        userJpaDao.save(user);
+        userRepository.save(user);
         log.info("Saving user to the db. User [{}]", username);
     }
 
@@ -56,43 +57,48 @@ public class UserService {
         Pageable page = PageRequest.of(pageNumber, pageSize);
         if (prefix != null) {
             log.info("Getting filtered users");
-            return userJpaDao.findUsersByUsernameStartingWith(prefix, page).getContent();
+            return userRepository.findUsersByUsernameStartingWith(prefix, page).getContent();
         } else {
             log.info("Getting all users");
-            return userJpaDao.findAll(page).getContent();
+            return userRepository.findAll(page).getContent();
         }
     }
 
     public User getUser(final String username) {
         log.info("Getting user from db by username. User [{}]", username);
-        return userJpaDao.findUserByUsername(username).orElse(null);
+        return userRepository.findUserByUsername(username).orElse(null);
     }
 
     public User getUser(final long id) {
         log.info("Getting user from db by id. UserId [{}]", id);
-        return userJpaDao.findUserById(id).orElse(null);
+        return userRepository.findUserById(id).orElse(null);
     }
 
     public List<User> getUserFriends(final long userId) {
         log.info("Getting user friends. User id [{}]", userId);
-        return userJpaDao.findUserFriends(userId).orElse(null);
+        return userRepository.findUserFriends(userId).orElse(null);
     }
 
     public long countAllUsers() {
         log.info("Getting all users quantity");
-        return userJpaDao.count();
+        return userRepository.count();
     }
 
     public long countFilteredUsers(final String prefix) {
         log.info("Counting filtered users with prefix [{}]", prefix);
-        return userJpaDao.countByUsernameStartingWith(prefix);
+        return userRepository.countByUsernameStartingWith(prefix);
     }
 
     public Integer deleteUserById(final long id) {
-        return userJpaDao.deleteUserById(id);
+        return userRepository.deleteUserById(id);
     }
 
     public void updateUser(User user) {
-        userJpaDao.save(user);
+        userRepository.save(user);
+    }
+
+    @Override
+    public User recipientIdToUser(long recipientId) {
+        return userRepository.findUserById(recipientId).orElse(null);
     }
 }

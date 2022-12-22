@@ -9,10 +9,10 @@ services:
       - POSTGRES_DB=tms
     ports:
       - "35432:5432"
-  flyway-migrator:
-    image: boxfuse/flyway:5-alpine
-    command: -url=jdbc:postgresql://db:5432/tms -schemas=public -baselineOnMigrate=true -user=root -password=root migrate
-    volumes:
-      - ./src/main/resources/db/migration:/flyway/sql
-    depends_on:
-      - db
+#  message-service:
+#    container_name: "message-service"
+#    image: message-service:latest
+#    ports:
+#      - "9090:9090"
+#    depends_on:
+#    - db

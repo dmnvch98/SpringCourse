@@ -23,22 +23,25 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableTransactionManagement
 public class HibernateConfig {
     @Value("${driver-class-name}")
-    private String DRIVER;
+    private String driver;
 
     @Value("${password}")
-    private String PASSWORD;
+    private String password;
 
-    @Value("${url}")
-    private String URL;
+    @Value("${spring.datasource.url}")
+    private String url;
 
     @Value("${spring.datasource.username}")
-    private String USERNAME;
+    private String username;
 
     @Value("${show-sql}")
-    private String SHOW_SQL;
+    private String showSql;
 
     @Value("${ddl-auto}")
-    private String HBM2DDL_AUTO;
+    private String hbm2DdlAuto;
+
+    @Value("${dialect}")
+    private String dialect;
 
     @Bean
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
@@ -54,17 +57,18 @@ public class HibernateConfig {
     @Bean
     public DataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName(DRIVER);
-        dataSource.setUrl(URL);
-        dataSource.setUsername(USERNAME);
-        dataSource.setPassword(PASSWORD);
+        dataSource.setDriverClassName(driver);
+        dataSource.setUrl(url);
+        dataSource.setUsername(username);
+        dataSource.setPassword(password);
         return dataSource;
     }
 
     private Properties hibernateProperties() {
         Properties properties = new Properties();
-        properties.put("hibernate.show_sql", SHOW_SQL);
-        properties.put("hibernate.hbm2ddl.auto", HBM2DDL_AUTO);
+        properties.put("hibernate.show_sql", showSql);
+        properties.put("hibernate.hbm2ddl.auto", hbm2DdlAuto);
+        properties.put("hibernate.dialect", dialect);
         return properties;
     }
 
