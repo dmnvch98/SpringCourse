@@ -27,6 +27,7 @@
         <feign.httpclient>11.8</feign.httpclient>
         <spring.cloud.starter.openfeign>3.1.4</spring.cloud.starter.openfeign>
         <flyway.version>7.10.0</flyway.version>
+        <junit5.version>5.9.1</junit5.version>
     </properties>
 
     <dependencyManagement>
