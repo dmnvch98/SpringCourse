@@ -7,7 +7,6 @@ import static org.mockito.BDDMockito.given;
 
 import org.example.springmvc.repository.UserRepository;
 import org.example.springmvc.service.UserService;
-import org.junit.Ignore;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -17,7 +16,6 @@ import org.junit.jupiter.api.Test;
 import java.io.IOException;
 import java.util.Date;
 
-@Ignore
 @ExtendWith(MockitoExtension.class)
 public class UserServiceTest {
     @Mock

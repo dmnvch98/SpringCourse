@@ -1,5 +1,8 @@
 package org.example.springmvc.controllers.restcontrollers;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.example.springmvc.converter.UserConverter;
 import org.example.springmvc.dto.UserDto;
@@ -19,6 +22,8 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/users")
 @RequiredArgsConstructor
+@SecurityRequirement(name = "Bearer Authentication")
+@Tag(name="User controller", description="User controller")
 public class UserController {
     public static final String DEFAULT_PAGE_SIZE = "5";
     public static final String DEFAULT_PAGE_NUMBER = "0";
@@ -27,7 +32,7 @@ public class UserController {
     private final UserConverter userConverter;
 
     private final AuthenticationFacade authenticationFacade;
-
+    @Operation(summary = "Get user by userId")
     @GetMapping("/{id}")
     public ResponseEntity<UserRestDto> getUser(@PathVariable @NumberFormat final long id) {
         if (userService.isExist(id)) {
@@ -36,7 +41,7 @@ public class UserController {
         }
         return ResponseEntity.notFound().build();
     }
-
+    @Operation(summary = "Filter users by username and get users using pagination")
     @GetMapping()
     public ResponseEntity<List<UserRestDto>> getUsers(final @RequestParam(name = "search", required = false) String searchPrefix,
     final @RequestParam(name = "pageNumber", required = false, defaultValue = DEFAULT_PAGE_NUMBER) Integer pageNumber,
@@ -47,6 +52,7 @@ public class UserController {
                 .toList());
     }
 
+    @Operation(summary = "Create user")
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<UserRestDto> createUser(@Validated(Unique.class) @RequestBody final UserDto userDto) {
             if (authenticationFacade.signUp(
@@ -61,6 +67,7 @@ public class UserController {
             }
        }
 
+    @Operation(summary = "Delete user")
     @DeleteMapping("/{id}")
     public ResponseEntity<Object> deleteUser(@PathVariable long id) {
         if (userService.isExist(id)) {

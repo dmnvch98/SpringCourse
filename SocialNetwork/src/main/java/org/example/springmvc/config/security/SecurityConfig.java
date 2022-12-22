@@ -27,6 +27,7 @@ public class SecurityConfig {
                 .and()
                 .authorizeHttpRequests(requests -> requests
                         .antMatchers("/view/**").permitAll()
+                        .antMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
                         .antMatchers("/api/v1/auth/**").permitAll()
                         .antMatchers("/api/v1/users/**").hasAnyRole("ADMIN")
                         .antMatchers("/api/v1/messages/**").hasAnyRole("USER", "ADMIN")
