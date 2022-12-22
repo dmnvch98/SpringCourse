@@ -14,7 +14,7 @@ public class MessageRestService {
 
     public List<Message> getUserMessages(final long friendsId) {
         return messageRepository.
-                findMessagesByFriends_IdOrderById(friendsId)
+                findMessagesByFriendsIdOrderById(friendsId)
                 .orElse(null);
     }
 

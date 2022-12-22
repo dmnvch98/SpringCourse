@@ -7,5 +7,6 @@ import java.util.List;
 import java.util.Optional;
 
 public interface MessageRepository extends JpaRepository<Message, Long> {
-    Optional<List<Message>> findMessagesByFriends_IdOrderById(long friendsId);
+    Optional<List<Message>> findMessagesByFriendsIdOrderById(long friendsId);
+
 }

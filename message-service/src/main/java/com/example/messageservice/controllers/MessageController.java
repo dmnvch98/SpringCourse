@@ -35,6 +35,6 @@ public class MessageController {
     @RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     UserMessagesDto sendMessage(@RequestBody final Message message) {
         messageRestService.saveMessage(message);
-        return getUserMessages(message.getFriends().getId());
+        return getUserMessages(message.getFriendsId());
     }
 }

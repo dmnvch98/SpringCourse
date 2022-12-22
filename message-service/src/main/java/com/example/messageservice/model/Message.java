@@ -15,16 +15,19 @@ public class Message {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @GenericGenerator(name = "increment", strategy = "increment")
     private long id;
-    @ManyToOne
-    @JoinColumn(name = "sender_user_id")
-    private User sender;
-    @ManyToOne
-    @JoinColumn(name = "recipient_user_id")
-    private User recipient;
+
+    @Column(name = "sender_user_id")
+    private Long senderId;
+
+    @Column(name = "recipient_user_id")
+    private Long recipientId;
+
     @Column(name = "message_date")
     private Date messageDate;
+
     @Column(name = "message_text")
     private String messageText;
-    @ManyToOne
-    private Friends friends;
+
+    @Column(name = "friends_id")
+    private Long friendsId;
 }
