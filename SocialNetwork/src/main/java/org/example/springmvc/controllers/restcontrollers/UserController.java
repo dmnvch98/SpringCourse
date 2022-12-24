@@ -54,6 +54,7 @@ public class UserController {
     }
 
     @Operation(summary = "Create user")
+    @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<UserRestDto> createUser(@Validated(Unique.class) @RequestBody final UserDto userDto) {
             if (authenticationFacade.signUp(

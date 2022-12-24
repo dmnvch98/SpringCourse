@@ -1,4 +1,3 @@
-import {useUsers} from "../hooks/Users";
 import {IUser} from "../models";
 
 interface UserProps {
