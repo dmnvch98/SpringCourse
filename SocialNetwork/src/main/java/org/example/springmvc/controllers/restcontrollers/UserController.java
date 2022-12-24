@@ -42,6 +42,7 @@ public class UserController {
         return ResponseEntity.notFound().build();
     }
     @Operation(summary = "Filter users by username and get users using pagination")
+    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping()
     public ResponseEntity<List<UserRestDto>> getUsers(final @RequestParam(name = "search", required = false) String searchPrefix,
     final @RequestParam(name = "pageNumber", required = false, defaultValue = DEFAULT_PAGE_NUMBER) Integer pageNumber,

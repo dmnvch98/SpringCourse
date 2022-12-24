@@ -29,7 +29,7 @@ public class SecurityConfig {
                         .antMatchers("/view/**").permitAll()
                         .antMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
                         .antMatchers("/api/v1/auth/**").permitAll()
-                        .antMatchers("/api/v1/users/**").hasAnyRole("ADMIN")
+                        .antMatchers("/api/v1/users/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)

@@ -1,18 +1,19 @@
 import {useEffect, useState} from "react";
-import {IProduct} from "../models";
+import {IUser} from "../models";
 import axios, {AxiosError} from "axios";
 
-export function useProducts() {
-    const [products, setProducts] = useState<IProduct[]>([])
+export function useUsers() {
+    const [users, setUsers] = useState<IUser[]>([])
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState('')
 
-    async function fetchProduct() {
+    async function fetchUsers() {
         try {
             setError('');
             setLoading(true);
-            const response = await axios.get<IProduct[]>('https://fakestoreapi.com/prdoducts?limit=5');
-            setProducts(response.data);
+            const response = await axios.get<IUser[]>('http://localhost:8080/api/v1/users/');
+            setUsers(response.data);
+            console.log(users);
             setLoading(false);
         } catch (e: unknown) {
             const error = e as AxiosError;
@@ -22,8 +23,8 @@ export function useProducts() {
     }
 
     useEffect(() => {
-        fetchProduct();
+        fetchUsers();
     }, [])
 
-    return {products, loading, error};
+    return {users, loading, error};
 }

@@ -10,3 +10,8 @@ export interface IProduct {
         count: number
     }
 }
+
+export interface IUser {
+    id: number
+    username: string
+}
