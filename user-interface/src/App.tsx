@@ -1,16 +1,16 @@
 import React from 'react';
 import {BrowserRouter as Router, Route, Routes,} from "react-router-dom";
-import {Allusers} from "./pages/Allusers";
-import {SignUp} from "./pages/SignUp";
 import {SignIn} from "./pages/SignIn";
+import {Users} from "./pages/Users";
+import {Registration} from "./pages/Registration";
 
 function App() {
     return (
         <Router>
                 <Routes>
-                    <Route path="/signup" element={<SignUp/>} />
                     <Route path="/signin" element={<SignIn/>} />
-                    <Route path="/allusers" element={<Allusers/>} />
+                    <Route path="/users" element={<Users/>} />
+                    <Route path="/signup" element={<Registration/>} />
                 </Routes>
         </Router>
     )

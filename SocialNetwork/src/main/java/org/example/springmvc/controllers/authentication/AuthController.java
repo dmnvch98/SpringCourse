@@ -4,13 +4,16 @@ package org.example.springmvc.controllers.authentication;
 import io.swagger.v3.oas.annotations.Hidden;
 import lombok.RequiredArgsConstructor;
 import org.example.springmvc.config.security.jwt.Jwt;
-import org.example.springmvc.dto.JwtResponse;
-import org.example.springmvc.dto.CredentialsDto;
-import org.example.springmvc.dto.RefreshTokenDto;
+import org.example.springmvc.converter.UserConverter;
+import org.example.springmvc.dto.*;
 import org.example.springmvc.exceptions.InvalidCredentialException;
+import org.example.springmvc.facades.AuthenticationFacade;
 import org.example.springmvc.model.User;
 import org.example.springmvc.service.UserService;
+import org.example.springmvc.validations.flags.Unique;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RequestMapping("/api/v1/auth")
@@ -22,8 +25,11 @@ public class AuthController {
     private final UserService userService;
     private final Jwt jwt;
 
+    private final AuthenticationFacade authenticationFacade;
+
+    private final UserConverter userConverter;
+
     @PostMapping("login")
-    @CrossOrigin(origins = "http://localhost:3000")
     public ResponseEntity<JwtResponse> authorize(@RequestBody final CredentialsDto credentials) throws InvalidCredentialException {
         if (userService.verifyUser(credentials.getUsername(), credentials.getPassword())) {
             User user = userService.getUser(credentials.getUsername());
@@ -34,6 +40,19 @@ public class AuthController {
             return ResponseEntity.ok(new JwtResponse(accessToken, refreshToken));
         } else {
             return ResponseEntity.noContent().build();
+        }
+    }
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, path = "signup")
+    public ResponseEntity<UserRestDto> createUser(@Validated(Unique.class) @RequestBody final UserDto userDto) {
+        if (authenticationFacade.signUp(
+                userDto.getUsername(),
+                userDto.getPassword(),
+                userDto.getRole().toUpperCase()
+        )) {
+            User currentUser = userService.getUser(userDto.getUsername());
+            return ResponseEntity.ok(userConverter.userToUserRestDto(currentUser));
+        } else {
+            return null;
         }
     }
 

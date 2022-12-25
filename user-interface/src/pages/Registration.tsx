@@ -1,17 +1,26 @@
-import {Button, Container, Grid, IconButton, Paper, TextField} from "@mui/material";
+import {
+    Button,
+    Container,
+    Grid,
+    IconButton,
+    Paper,
+    TextField
+} from "@mui/material";
 import InputAdornment from '@mui/material/InputAdornment';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import {useState} from "react";
-import {signIn} from "../api/Users";
+import {signIn, signUp} from "../api/Users";
 
 
-export function SignIn() {
+export function Registration() {
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
+    const [role, setRole] = useState('')
 
-    const login = () => {
-        signIn(username, password)
+    const registration = () => {
+        signUp(username, password, role)
+            .then(() => signIn(username, password))
             .then(() => window.location.replace('http://localhost:3000/users'))
             .catch(e => alert(e));
     }
@@ -81,10 +90,20 @@ export function SignIn() {
                                     }}/>
                             </Grid>
                             <Grid item>
+                                <TextField
+                                    id="standard-basic"
+                                    label="Role"
+                                    variant="outlined"
+                                    fullWidth
+                                    required
+                                    onChange={e => setRole(e.target.value)}
+                                />
+                            </Grid>
+                            <Grid item>
                                 <Button
                                     variant="contained"
                                     fullWidth
-                                    onClick={login}>Submit</Button>
+                                    onClick={registration}>Submit</Button>
                             </Grid>
                         </Grid>
                     </Paper>

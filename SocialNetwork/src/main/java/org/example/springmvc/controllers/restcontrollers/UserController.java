@@ -42,7 +42,6 @@ public class UserController {
         return ResponseEntity.notFound().build();
     }
     @Operation(summary = "Filter users by username and get users using pagination")
-    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping()
     public ResponseEntity<List<UserRestDto>> getUsers(final @RequestParam(name = "search", required = false) String searchPrefix,
     final @RequestParam(name = "pageNumber", required = false, defaultValue = DEFAULT_PAGE_NUMBER) Integer pageNumber,
@@ -54,7 +53,6 @@ public class UserController {
     }
 
     @Operation(summary = "Create user")
-    @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<UserRestDto> createUser(@Validated(Unique.class) @RequestBody final UserDto userDto) {
             if (authenticationFacade.signUp(
