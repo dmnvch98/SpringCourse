@@ -7,13 +7,20 @@ export function useUsers() {
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState('')
 
-    async function fetchUsers() {
+    const config = {
+        headers: {
+            "Content-type": "application/json",
+            "Authorization": `Bearer ${localStorage.getItem('token')}`,
+        },
+    };
+
+    async function getUsers() {
         try {
             setError('');
             setLoading(true);
-            const response = await axios.get<IUser[]>('http://localhost:8080/api/v1/users/');
+            console.log(config);
+            const response = await axios.get<IUser[]>('http://localhost:8080/api/v1/users/', config)
             setUsers(response.data);
-            console.log(users);
             setLoading(false);
         } catch (e: unknown) {
             const error = e as AxiosError;
@@ -23,7 +30,7 @@ export function useUsers() {
     }
 
     useEffect(() => {
-        fetchUsers();
+        getUsers();
     }, [])
 
     return {users, loading, error};
