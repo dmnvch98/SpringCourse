@@ -11,10 +11,7 @@ import org.example.springmvc.exceptions.InvalidCredentialException;
 import org.example.springmvc.model.User;
 import org.example.springmvc.service.UserService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RequestMapping("/api/v1/auth")
 @RestController
@@ -26,6 +23,7 @@ public class AuthController {
     private final Jwt jwt;
 
     @PostMapping("login")
+    @CrossOrigin(origins = "http://localhost:3000")
     public ResponseEntity<JwtResponse> authorize(@RequestBody final CredentialsDto credentials) throws InvalidCredentialException {
         if (userService.verifyUser(credentials.getUsername(), credentials.getPassword())) {
             User user = userService.getUser(credentials.getUsername());

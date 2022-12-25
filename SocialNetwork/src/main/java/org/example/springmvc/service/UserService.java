@@ -25,8 +25,9 @@ public class UserService {
     private final PasswordConfig passwordConfig;
 
     public boolean isExist(final String username) {
-        log.info("Checking if user exists. Username [{}]", username);
-        return userJpaDao.existsUserByUsername(username);
+        boolean isExists = userJpaDao.existsUserByUsername(username);
+        log.info("Checking if user exists. Username [{},{}]", username, isExists);
+        return isExists;
     }
 
     public boolean isExist(final long id) {
