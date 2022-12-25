@@ -13,7 +13,7 @@ import {useState} from "react";
 import {signIn, signUp} from "../api/Users";
 
 
-export function Registration() {
+export function SignUp() {
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
     const [role, setRole] = useState('')

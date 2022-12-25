@@ -52,21 +52,6 @@ public class UserController {
                 .toList());
     }
 
-    @Operation(summary = "Create user")
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<UserRestDto> createUser(@Validated(Unique.class) @RequestBody final UserDto userDto) {
-            if (authenticationFacade.signUp(
-                    userDto.getUsername(),
-                    userDto.getPassword(),
-                    userDto.getRole().toUpperCase()
-            )) {
-                User currentUser = userService.getUser(userDto.getUsername());
-                return ResponseEntity.ok(userConverter.userToUserRestDto(currentUser));
-            } else {
-                return null;
-            }
-       }
-
     @Operation(summary = "Delete user")
     @DeleteMapping("/{id}")
     public ResponseEntity<Object> deleteUser(@PathVariable long id) {
